@@ -10,7 +10,6 @@ import React from 'react';
 import ReactDOM from 'react-dom/server';
 import UniversalRouter from 'universal-router';
 import PrettyError from 'pretty-error';
-import Rollbar from 'rollbar';
 import App from './components/App';
 import Html from './components/Html';
 import { ErrorPageWithoutStyle } from './routes/error/ErrorPage';
@@ -21,12 +20,15 @@ import models from './data/models';
 import schema from './data/schema';
 import routes from './routes';
 import assets from './assets'; // eslint-disable-line import/no-unresolved
-import { port, auth, analytics } from './config';
+import { port, auth, starters, mains } from './config';
 import Person from './data/models/Person';
+import Rollbar from './core/rollbar';
+import { sendSlackMsgWithDebounce } from './core/slack';
 
 const app = express();
 
-//
+Rollbar.init();
+
 // Tell any CSS tooling (such as Material UI) to use all vendor prefixes if the
 // user agent is not known.
 // -----------------------------------------------------------------------------
@@ -114,9 +116,22 @@ app.post('/rsvp/save', (req, res) => {
         key: req.body.key,
       },
     }).then(() => {
-      res.json({
-        success: true,
-        prop: req.body.prop,
+      Person.findOne({
+        where: { key: req.body.key },
+      }).then(data => {
+        if (data.completed) {
+          sendSlackMsgWithDebounce(`${data.firstname} ${data.lastname} has saved their RSVP:\n${data.firstname} ${data.attending ? 'is' : 'is not'} coming.${data.attending ? `\nStarter: ${starters[data.starter]}\nMain: ${mains[data.main]}\nDietary requirements: ${data.dietary ? data.dietary : 'None'}` : ''}`, req.body.key);
+        }
+        res.json({
+          success: true,
+          prop: req.body.prop,
+        });
+      }).catch(err => {
+        Rollbar.handleError(err);
+        res.json({
+          success: false,
+          err,
+        });
       });
     }).catch(err => {
       Rollbar.handleError(err);
@@ -259,11 +274,7 @@ app.get('*', async (req, res, next) => {
 //
 // Error handling
 // -----------------------------------------------------------------------------
-Rollbar.init(analytics.rollbar.serverToken);
-Rollbar.handleUncaughtExceptionsAndRejections(analytics.rollbar.serverToken, {
-  exitOnUncaughtException: true,
-});
-app.use(Rollbar.errorHandler(analytics.rollbar.serverToken));
+app.use(Rollbar.errorHandler());
 const pe = new PrettyError();
 pe.skipNodeFiles();
 pe.skipPackage('express');

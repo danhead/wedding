@@ -35,6 +35,7 @@
     "react-icons": "^2.2.3",
     "rollbar": "^0.6.3",
     "sequelize": "^3.28.0",
+    "slack-node": "^0.1.8",
     "source-map-support": "^0.4.6",
     "sqlite3": "^3.1.8",
     "universal-router": "^2.0.0",
@@ -106,7 +107,7 @@
     "webpack-hot-middleware": "^2.13.2",
     "webpack-middleware": "^1.5.1"
   },
-  "optionalDependencies" : {
+  "optionalDependencies": {
     "eslint": "^3.10.2",
     "eslint-config-airbnb": "^13.0.0",
     "eslint-loader": "^1.6.1",
