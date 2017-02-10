@@ -1,0 +1,33 @@
+import React, { PropTypes } from 'react';
+import withStyles from 'isomorphic-style-loader/lib/withStyles';
+import s from './Rsvp.css';
+import RsvpCard from '../../components/RsvpCard';
+
+class Rsvp extends React.Component {
+  static propTypes = {
+    title: PropTypes.string.isRequired,
+    people: PropTypes.arrayOf(PropTypes.shape({
+      firstname: PropTypes.string,
+      lastname: PropTypes.string,
+      email: PropTypes.string,
+      dietary: PropTypes.string,
+      starter: PropTypes.string,
+      main: PropTypes.string,
+    })).isRequired,
+  };
+
+  render() {
+    return (
+      <div className={s.root}>
+        <div className={s.container}>
+          <h1>{this.props.title}</h1>
+          <div className={s.flexContainer}>
+            {this.props.people.map(person => <RsvpCard key={person.key} person={person} />)}
+          </div>
+        </div>
+      </div>
+    );
+  }
+}
+
+export default withStyles(s)(Rsvp);
