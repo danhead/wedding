@@ -1,8 +1,12 @@
-import React from 'react';
+import React, { PropTypes } from 'react';
 import withStyles from 'isomorphic-style-loader/lib/withStyles';
 import s from './RsvpButton.css';
+import fetch from '../../core/fetch';
 
 class RsvpButton extends React.Component {
+  static propTypes = {
+    focusCallback: PropTypes.func,
+  };
 
   constructor(props) {
     super(props);
@@ -13,7 +17,45 @@ class RsvpButton extends React.Component {
     this.setState({ showRsvpForm: true });
     setTimeout(() => {
       this.rsvpInput.focus();
-    }, 250);
+    }, 500);
+  }
+
+  handleRsvpFocus = () => {
+    if (this.props.focusCallback) {
+      this.props.focusCallback(true);
+    }
+    this.setState({ inputError: false });
+  }
+
+  handleRsvpBlur = () => {
+    if (this.props.focusCallback) {
+      this.props.focusCallback(false);
+    }
+  }
+
+  handleFormSubmit = (event) => {
+    event.preventDefault();
+    fetch(`rsvp/${this.rsvpInput.value}`)
+      .then(data => {
+        if (data.status === 200) {
+          location.href = data.url;
+        } else {
+          this.setState({
+            inputInvalid: true,
+            inputInvalidMsg: 'Sorry, that RSVP code is invalid.',
+          });
+          setTimeout(() => {
+            this.setState({
+              inputInvalid: false,
+            });
+          }, 500);
+        }
+      }).catch(() => {
+        this.setState({
+          inputInvalid: true,
+          inputInvalidMsg: 'Sorry, there was a problem validating your RSVP code, please try again later.',
+        });
+      });
   }
 
   render() {
@@ -35,14 +77,19 @@ class RsvpButton extends React.Component {
             this.state.showRsvpForm ? s.rsvpFormVisible : null,
           ].join(' ')}
         >
-          <form method="post" action="/rsvp">
+          <form method="post" action="/rsvp" onSubmit={this.handleFormSubmit}>
             <div className={[s.formGroup, s.rsvpGroup].join(' ')}>
               <label className={s.label} htmlFor="code">
                 Enter your RSVP code
               </label>
               <input
-                className={s.input}
+                className={[
+                  s.input,
+                  this.state.inputInvalid ? s.inputInvalid : null,
+                ].join(' ')}
                 ref={(input) => { this.rsvpInput = input; }}
+                onFocus={this.handleRsvpFocus}
+                onBlur={this.handleRsvpBlur}
                 id="code"
                 type="text"
                 name="code"
@@ -55,6 +102,15 @@ class RsvpButton extends React.Component {
               </button>
             </div>
           </form>
+          <div
+            className={[
+              s.invalidMsg,
+              this.state.inputInvalidMsg ? s.invalidMsgVisible : null,
+            ].join(' ')}
+            role="alert"
+          >
+            {this.state.inputInvalidMsg}
+          </div>
         </div>
       </div>
     );
