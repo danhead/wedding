@@ -5,21 +5,21 @@
   height: 100vh;
 }
 
-.churchImage {
+.bgImage {
   position: fixed;
   width: 100vw;
   height: 100vh;
-  background: url('/img/church_2500.jpg');
+  background: url('/img/prague_2560.jpg');
   background-size: cover;
-  background-position-x: 50%;
+  background-position-x: 54%;
   background-color: #c1c1c1;
-  filter: grayscale(1) brightness(0.4);
+  filter: grayscale(1) brightness(0.6);
   z-index: -1;
   transition: filter ease-in-out 0.5s;
 }
 
-.churchImageFocus {
-  filter: grayscale(0.4) brightness(0.6);
+.bgImageFocus {
+  filter: grayscale(0.4) brightness(1);
 }
 
 .container {

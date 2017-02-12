@@ -28,9 +28,14 @@ class RsvpButton extends React.Component {
   }
 
   handleRsvpBlur = () => {
+    this.setState({ inputInvalidMsg: null });
     if (this.props.focusCallback) {
       this.props.focusCallback(false);
     }
+  }
+
+  handleRsvpChange = () => {
+    this.setState({ inputInvalidMsg: null });
   }
 
   handleFormSubmit = (event) => {
@@ -90,6 +95,7 @@ class RsvpButton extends React.Component {
                 ref={(input) => { this.rsvpInput = input; }}
                 onFocus={this.handleRsvpFocus}
                 onBlur={this.handleRsvpBlur}
+                onChange={this.handleRsvpChange}
                 id="code"
                 type="text"
                 name="code"

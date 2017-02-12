@@ -10,8 +10,8 @@ class Home extends React.Component {
     this.state = {};
   }
 
-  focusChurchImage = (focus) => {
-    this.setState({ focusChurch: focus });
+  focusBgImage = (focus) => {
+    this.setState({ focusBgImage: focus });
   }
 
   render() {
@@ -19,8 +19,8 @@ class Home extends React.Component {
       <div className={s.root}>
         <div
           className={[
-            s.churchImage,
-            this.state.focusChurch ? s.churchImageFocus : null,
+            s.bgImage,
+            this.state.focusBgImage ? s.bgImageFocus : null,
           ].join(' ')}
         />
         <div className={s.container}>
@@ -31,7 +31,7 @@ class Home extends React.Component {
           </div>
           <div className={s.rsvp}>
             <RsvpButton
-              focusCallback={this.focusChurchImage}
+              focusCallback={this.focusBgImage}
             />
           </div>
         </div>
