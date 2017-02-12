@@ -1,14 +1,36 @@
 @import '../../components/variables.css';
 
 .root {
-  padding-left: 20px;
-  padding-right: 20px;
+  width: 100vw;
+  height: 100vh;
+}
+
+.bgImage {
+  position: fixed;
+  width: 100vw;
+  height: 100vh;
+  background: url('/img/cervenalhota_2560.jpg');
+  background-size: cover;
+  background-position-x: 30%;
+  background-color: #c1c1c1;
+  filter: grayscale(1) brightness(0.6);
+  z-index: -1;
+  transition: filter ease-in-out 0.5s;
+}
+
+.bgImageFocus {
+  filter: grayscale(0.4) brightness(1);
 }
 
 .container {
-  margin: 0 auto;
-  padding: 0 0 40px;
-  max-width: var(--max-content-width);
+  padding-top: 5vh;
+  margin: 0 20px;
+}
+
+.heading {
+  font-family: var(--font-family-cursive);
+  color: var(--colour-nearblack);
+  text-align: center;
 }
 
 .flexContainer {

@@ -7,6 +7,7 @@ import { starters, mains } from '../../config';
 
 class RsvpCard extends React.Component {
   static propTypes = {
+    focusCallback: PropTypes.func,
     className: PropTypes.string,
     person: PropTypes.shape({
       key: PropTypes.string,
@@ -140,6 +141,7 @@ class RsvpCard extends React.Component {
                 name="attending"
                 defaultValue="-1"
                 onChange={this.handleAttendingChange}
+                onFocus={this.props.focusCallback}
               >
                 <option value="-1" disabled>Will you be attending?</option>
                 <option value="true">
@@ -160,6 +162,7 @@ class RsvpCard extends React.Component {
                 name="attending"
                 defaultValue={this.props.person.attending === true ? 'true' : 'false'}
                 onChange={this.handleAttendingChange}
+                onFocus={this.props.focusCallback}
               >
                 <option value="true">
                   Yes
@@ -189,6 +192,7 @@ class RsvpCard extends React.Component {
                 name="starter"
                 defaultValue={this.props.person.starter}
                 onChange={this.handleStarterChange}
+                onFocus={this.props.focusCallback}
               >
                 {this.props.person.starter === '-1' ? <option value="-1" disabled>Please select a starter</option> : null}
                 {starters.map((starter, index) => (
@@ -214,6 +218,7 @@ class RsvpCard extends React.Component {
                 name="main"
                 defaultValue={this.props.person.main}
                 onChange={this.handleMainChange}
+                onFocus={this.props.focusCallback}
               >
                 {this.props.person.main === '-1' ? <option value="-1" disabled>Please select a main course</option> : null}
                 {mains.map((main, index) => (
@@ -238,8 +243,10 @@ class RsvpCard extends React.Component {
                 id="dietary"
                 type="text"
                 name="dietary"
+                autoComplete="off"
                 defaultValue={this.props.person.dietary}
                 onBlur={this.handleDietaryBlur}
+                onFocus={this.props.focusCallback}
               />
               <div className={s.iconContainer}>
                 {this.state.saveDietary === 'saved' ? <MdCheck size={30} color="green" /> : null}

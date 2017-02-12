@@ -16,13 +16,30 @@ class Rsvp extends React.Component {
     })).isRequired,
   };
 
+  constructor(props) {
+    super(props);
+    this.state = {};
+  }
+
+  focusCallback = () => {
+    this.setState({ focusBgImage: focus });
+  }
+
   render() {
     return (
       <div className={s.root}>
+        <div
+          className={[
+            s.bgImage,
+            this.state.focusBgImage ? s.bgImageFocus : null,
+          ].join(' ')}
+        />
         <div className={s.container}>
-          <h1>{this.props.title}</h1>
+          <h1 className={s.heading}>Répondez, s&#39;il vous plaît</h1>
           <div className={s.flexContainer}>
-            {this.props.people.map(person => <RsvpCard key={person.key} person={person} />)}
+            {this.props.people.map(person => (
+              <RsvpCard key={person.key} person={person} focusCallback={this.focusCallback} />
+            ))}
           </div>
         </div>
       </div>
