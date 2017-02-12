@@ -36,10 +36,17 @@ class RsvpButton extends React.Component {
 
   handleRsvpChange = () => {
     this.setState({ inputInvalidMsg: null });
+    if (this.rsvpInput.value && this.rsvpInput.value.length === 4) {
+      this.validateRsvp();
+    }
   }
 
   handleFormSubmit = (event) => {
     event.preventDefault();
+    this.validateRsvp();
+  }
+
+  validateRsvp = () => {
     fetch(`rsvp/${this.rsvpInput.value}`)
       .then(data => {
         if (data.status === 200) {
@@ -82,8 +89,13 @@ class RsvpButton extends React.Component {
             this.state.showRsvpForm ? s.rsvpFormVisible : null,
           ].join(' ')}
         >
-          <form method="post" action="/rsvp" onSubmit={this.handleFormSubmit}>
-            <div className={[s.formGroup, s.rsvpGroup].join(' ')}>
+          <form
+            method="post"
+            action="/rsvp"
+            ref={(form) => { this.rsvpForm = form; }}
+            onSubmit={this.handleFormSubmit}
+          >
+            <div className={s.formGroup}>
               <label className={s.label} htmlFor="code">
                 Enter your RSVP code
               </label>
@@ -99,13 +111,11 @@ class RsvpButton extends React.Component {
                 id="code"
                 type="text"
                 name="code"
+                minLength="4"
+                maxLength="4"
                 placeholder="Enter your RSVP code"
+                autoComplete="off"
               />
-            </div>
-            <div className={[s.formGroup, s.rsvpButtonGroup].join(' ')}>
-              <button className={s.button} type="submit">
-                RSVP
-              </button>
             </div>
           </form>
           <div

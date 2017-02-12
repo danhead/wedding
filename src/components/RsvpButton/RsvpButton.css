@@ -23,16 +23,6 @@
 
 .formGroup {
   margin-bottom: 15px;
-  display: inline-block;
-}
-
-.rsvpGroup {
-  width: 65%;
-}
-
-.rsvpButtonGroup {
-  width: 30%;
-  float: right;
 }
 
 .label {
