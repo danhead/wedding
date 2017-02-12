@@ -11,17 +11,13 @@ export default {
 
   async action() {
     const resp = await fetchQL('{getAllPersons{key,firstname,lastname,email,password,completed,starter,main}}');
+    const { data } = await resp.json();
+    const people = data.getAllPersons || [];
 
     const food = {
       starters: starters.map(name => ({ name, total: 0 })),
       mains: mains.map(name => ({ name, total: 0 })),
     };
-    let people = await resp.json();
-    if (people.data && people.data.getAllPersons) {
-      people = people.data.getAllPersons;
-    } else {
-      people = [];
-    }
 
     const Admin = await new Promise((resolve) => {
       require.ensure([], (require) => resolve(require('./Admin').default), 'admin');

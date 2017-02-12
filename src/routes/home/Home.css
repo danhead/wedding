@@ -1,73 +1,43 @@
 @import '../../components/variables.css';
 
 .root {
-  padding-left: 20px;
-  padding-right: 20px;
+  width: 100vw;
+  height: 100vh;
 }
 
-.formContainer {
-  margin: 0 auto;
-  max-width: 420px;
+.churchImage {
+  position: fixed;
+  width: 100vw;
+  height: 100vh;
+  background-image: url('/img/church_2500.jpg');
+  background-size: cover;
+  background-position-x: 40%;
+  filter: grayscale(1) brightness(0.4);
+  z-index: -1;
 }
 
-.formGroup {
-  margin-bottom: 15px;
+.container {
+  padding-top: 5vh;
+  margin: 0 20px;
 }
 
-.label {
-  display: inline-block;
-  margin-bottom: 5px;
-  max-width: 100%;
-  font-weight: 700;
-}
-
-.input {
-  display: block;
-  box-sizing: border-box;
-  padding: 10px 16px;
-  width: 100%;
-  height: 46px;
-  outline: 0;
-  border: 1px solid var(--colour-grey);
-  border-radius: 0;
-  background: #fff;
-  box-shadow: inset 0 1px 1px rgba(0, 0, 0, 0.075);
-  color: #616161;
-  font-size: 18px;
-  line-height: 1.3333333;
-  transition: border-color ease-in-out 0.15s, box-shadow ease-in-out 0.15s;
-}
-
-.input:focus {
-  border-color: var(--colour-tertiary);
-  box-shadow: inset 0 1px 1px rgba(0, 0, 0, 0.075), 0 0 8px rgba(0, 116, 194, 0.6);
-}
-
-.button {
-  display: block;
-  box-sizing: border-box;
-  margin: 0;
-  padding: 10px 16px;
-  width: 100%;
-  outline: 0;
-  border: 1px solid var(--colour-secondary);
-  border-radius: 0;
-  background: var(--colour-primary);;
-  color: #fff;
+.headings {
+  max-width: 640px;
+  margin: 0 auto 40px;
   text-align: center;
-  text-decoration: none;
-  font-size: 18px;
-  line-height: 1.3333333;
-  cursor: pointer;
+  color: var(--colour-nearblack);
 }
 
-.button:hover {
-  background: var(--colour-secondary);
+.headings > * {
+  margin: 0 0 20px;
+  font-size: 2.5em;
 }
 
-.button:focus {
-  border-color: var(--colour-tertiary);
-  box-shadow: 0 0 8px var(--colour-secondary);
+.headings h3 {
+  margin-top: 40px;
+  font-family: var(--font-family-cursive);
 }
 
-
+.rsvp {
+  padding-top: 15vh;
+}

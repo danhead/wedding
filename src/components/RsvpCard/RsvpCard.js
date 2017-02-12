@@ -22,13 +22,16 @@ class RsvpCard extends React.Component {
     }).isRequired,
   };
 
-  state = {
-    detailsVisible: this.props.person.attending,
-    saveAttending: this.props.person.attending ? 'saved' : null,
-    saveStarter: this.props.person.starter !== '-1' ? 'saved' : null,
-    saveMain: this.props.person.main !== '-1' ? 'saved' : null,
-    saveDietary: this.props.person.dietary ? 'saved' : null,
-  };
+  constructor(props) {
+    super(props);
+    this.state = {
+      detailsVisible: this.props.person.attending,
+      saveAttending: this.props.person.attending ? 'saved' : null,
+      saveStarter: this.props.person.starter !== '-1' ? 'saved' : null,
+      saveMain: this.props.person.main !== '-1' ? 'saved' : null,
+      saveDietary: this.props.person.dietary ? 'saved' : null,
+    };
+  }
 
   isRSVPComplete(prop, value) {
     function isOK(str) {
