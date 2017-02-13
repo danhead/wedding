@@ -48,27 +48,29 @@ class RsvpButton extends React.Component {
   }
 
   validateRsvp = () => {
-    fetch(`rsvp/${this.rsvpInput.value}`)
-      .then(data => {
-        if (data.status === 200) {
-          location.href = data.url;
-        } else {
-          this.setState({
-            inputInvalid: true,
-            inputInvalidMsg: 'Sorry, that RSVP code is invalid.',
-          });
-          setTimeout(() => {
-            this.setState({
-              inputInvalid: false,
-            });
-          }, 500);
-        }
-      }).catch(() => {
+    fetch(`rsvp/${this.rsvpInput.value}`, {
+      method: 'get',
+      credentials: 'include',
+    }).then(data => {
+      if (data.status === 200) {
+        location.href = data.url;
+      } else {
         this.setState({
           inputInvalid: true,
-          inputInvalidMsg: 'Sorry, there was a problem validating your RSVP code, please try again later.',
+          inputInvalidMsg: 'Sorry, that RSVP code is invalid.',
         });
+        setTimeout(() => {
+          this.setState({
+            inputInvalid: false,
+          });
+        }, 500);
+      }
+    }).catch(() => {
+      this.setState({
+        inputInvalid: true,
+        inputInvalidMsg: 'Sorry, there was a problem validating your RSVP code, please try again later.',
       });
+    });
   }
 
   render() {
