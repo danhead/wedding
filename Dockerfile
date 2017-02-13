@@ -1,6 +1,6 @@
 FROM node:7.2.1-alpine
 
-ENV NODE_ENV production
+# Environment variables
 ENV DATABASE_PATH db/wedding.db
 ENV PORT 80
 EXPOSE 80
@@ -9,8 +9,11 @@ EXPOSE 80
 COPY ./ /usr/src/app
 WORKDIR /usr/src/app
 
-# Install dev dependencies and build release
+# Install dev + prod dependencies and build release
 RUN npm install --no-optional --silent
+
+# Run production build
+ENV NODE_ENV production
 RUN npm run build --release --silent
 
 WORKDIR /usr/src/app/build
