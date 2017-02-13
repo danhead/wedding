@@ -29,7 +29,6 @@ class RsvpButton extends React.Component {
   }
 
   handleRsvpBlur = () => {
-    this.setState({ inputInvalidMsg: null });
     if (this.props.focusCallback) {
       this.props.focusCallback(false);
     }
@@ -54,6 +53,18 @@ class RsvpButton extends React.Component {
     }).then(data => {
       if (data.status === 200) {
         location.href = data.url;
+      } else if (data.status === 429) {
+        this.setState({
+          inputInvalid: true,
+          inputInvalidMsg: 'You have made too many incorrect attempts. Please try again later.',
+          inputDisabled: true,
+        });
+        setTimeout(() => {
+          this.setState({
+            inputInvalid: false,
+            inputDisabled: false,
+          });
+        }, 10 * 60 * 1000);
       } else {
         this.setState({
           inputInvalid: true,
@@ -111,6 +122,7 @@ class RsvpButton extends React.Component {
                 onFocus={this.handleRsvpFocus}
                 onBlur={this.handleRsvpBlur}
                 onChange={this.handleRsvpChange}
+                disabled={this.state.inputDisabled}
                 id="code"
                 type="text"
                 name="code"

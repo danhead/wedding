@@ -10,6 +10,7 @@ import React from 'react';
 import ReactDOM from 'react-dom/server';
 import UniversalRouter from 'universal-router';
 import PrettyError from 'pretty-error';
+import Bouncer from 'express-bouncer';
 import App from './components/App';
 import Html from './components/Html';
 import { ErrorPageWithoutStyle } from './routes/error/ErrorPage';
@@ -28,6 +29,17 @@ import { sendSlackMsgWithDebounce } from './core/slack';
 const app = express();
 
 Rollbar.init();
+const bouncer = Bouncer(10 * 60 * 1000, 60 * 60 * 1000, 5);
+bouncer.blocked = (req, res, next, remaining) => {
+  let time = Math.ceil(remaining / 1000);
+  let suffix = ' seconds';
+  if (time > 120) {
+    time = Math.ceil(time / 60);
+    suffix = ' minutes';
+  }
+  const body = `You have made too many incorrect attempts. Please wait ${time} ${suffix}.`;
+  res.status(429).send(body);
+};
 
 // Tell any CSS tooling (such as Material UI) to use all vendor prefixes if the
 // user agent is not known.
@@ -84,15 +96,15 @@ app.use('/graphql', expressGraphQL(req => ({
 // -----------------------------------------------------------------------------
 //
 
-app.get('/:password', (req, res, next) => {
-  if (req.params.password.length !== 4) {
+app.get('/:code', (req, res, next) => {
+  if (req.params.code.length !== 4) {
     // Not a password
     next();
   } else {
-    Person.findAll({ where: { password: req.params.password } })
+    Person.findAll({ where: { password: req.params.code } })
       .then(data => {
         if (data.length > 0) {
-          res.redirect(`/rsvp/${req.params.password}`);
+          res.redirect(`/rsvp/${req.params.code}`);
         } else {
           next();
         }
@@ -105,6 +117,19 @@ app.get('/:password', (req, res, next) => {
 
 app.post('/rsvp', (req, res) => {
   res.redirect(`/rsvp/${req.body.code}`);
+});
+
+app.get('/rsvp/:code', bouncer.block, (req, res, next) => {
+  Person.findAll({ where: { password: req.params.code } })
+  .then(data => {
+    if (data.length > 0) {
+      bouncer.reset(req);
+    }
+    next();
+  }).catch((err) => {
+    Rollbar.handleError(err);
+    next(err);
+  });
 });
 
 app.post('/rsvp/save', (req, res) => {

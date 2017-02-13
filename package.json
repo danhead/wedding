@@ -15,6 +15,7 @@
     "cookie-parser": "^1.4.3",
     "core-js": "^2.4.1",
     "express": "^4.14.0",
+    "express-bouncer": "^0.2.0",
     "express-graphql": "^0.6.1",
     "express-jwt": "^5.1.0",
     "fastclick": "^1.0.6",
