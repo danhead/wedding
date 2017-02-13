@@ -15,8 +15,14 @@ export default {
     const people = data.getAllPersons || [];
 
     const food = {
-      starters: starters.map(name => ({ name, total: 0 })),
-      mains: mains.map(name => ({ name, total: 0 })),
+      starters: starters.map((name, index) => {
+        const total = people.filter(person => person.starter === `${index}`).length;
+        return { name, total };
+      }),
+      mains: mains.map((name, index) => {
+        const total = people.filter(person => person.main === `${index}`).length;
+        return { name, total };
+      }),
     };
 
     const Admin = await new Promise((resolve) => {
@@ -29,7 +35,8 @@ export default {
       component: <Layout><Admin
         title={title}
         people={people}
-        food={food}
+        starters={food.starters}
+        mains={food.mains}
       /></Layout>,
     };
   },

@@ -14,6 +14,14 @@ class Admin extends React.Component {
       password: PropTypes.string,
       attending: PropTypes.boolean,
     })).isRequired,
+    starters: PropTypes.arrayOf(PropTypes.shape({
+      name: PropTypes.string,
+      total: PropTypes.integer,
+    })).isRequired,
+    mains: PropTypes.arrayOf(PropTypes.shape({
+      name: PropTypes.string,
+      total: PropTypes.integer,
+    })).isRequired,
   };
 
   render() {
@@ -26,6 +34,21 @@ class Admin extends React.Component {
             <p>{this.props.people.length} people</p>
             <p>{this.props.people.filter(person => person.completed).length} responses</p>
             <Link to="/admin/people">Manage people</Link>
+          </div>
+          <div>
+            <h2>Food</h2>
+            <h3>Starters</h3>
+            <ul>
+              {this.props.starters.map((starter, index) => (
+                <li key={index}>{starter.name} - {starter.total}</li>
+              ))}
+            </ul>
+            <h3>Mains</h3>
+            <ul>
+              {this.props.mains.map((main, index) => (
+                <li key={index}>{main.name} - {main.total}</li>
+              ))}
+            </ul>
           </div>
         </div>
       </div>
