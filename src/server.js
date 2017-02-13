@@ -94,24 +94,33 @@ app.use('/graphql', expressGraphQL(req => ({
 //
 // Register RSVP routes
 // -----------------------------------------------------------------------------
-//
+// TODO: This could do with cleaning up, to prevent duplicate bouncer tests and Person queries
 
-app.get('/:code', (req, res, next) => {
-  if (req.params.code.length !== 4) {
-    // Not a password
-    next();
-  } else {
-    Person.findAll({ where: { password: req.params.code } })
-      .then(data => {
-        if (data.length > 0) {
-          res.redirect(`/rsvp/${req.params.code}`);
-        } else {
-          next();
-        }
-      }).catch((err) => {
-        Rollbar.handleError(err);
-        next(err);
-      });
+app.get('/:code', bouncer.block, (req, res, next) => {
+  try {
+    // Hijack router to test if url is a RSVP code
+    if (req.params.code.length === 4) {
+      // Possibly a password
+      Person.findAll({ where: { password: req.params.code } })
+        .then(data => {
+          if (data.length > 0) {
+            // It is a password
+            bouncer.reset(req);
+            res.redirect(`/rsvp/${req.params.code}`);
+          } else {
+            next();
+          }
+        }).catch((err) => {
+          Rollbar.handleError(err);
+          next(err);
+        });
+    } else {
+      bouncer.reset(req);
+      next();
+    }
+  } catch (err) {
+    Rollbar.handleError(err);
+    next(err);
   }
 });
 
