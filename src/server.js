@@ -120,7 +120,12 @@ app.post('/rsvp/save', (req, res) => {
         where: { key: req.body.key },
       }).then(data => {
         if (data.completed) {
-          sendSlackMsgWithDebounce(`${data.firstname} ${data.lastname} has saved their RSVP:\n${data.firstname} ${data.attending ? 'is' : 'is not'} coming.${data.attending ? `\nStarter: ${starters[data.starter]}\nMain: ${mains[data.main]}\nDietary requirements: ${data.dietary ? data.dietary : 'None'}` : ''}`, req.body.key);
+          const attending = `\nAttending: ${data.attending ? 'Yes' : 'No'}`;
+          const starter = (data.attending && data.starter !== -1) ? `\nStarter: ${starters[data.starter]}` : '';
+          const main = (data.attending && data.main !== -1) ? `\nMain: ${mains[data.main]}` : '';
+          const dietary = (data.attending && data.dietary) ? `\nDietary requirements: ${data.dietary}` : '';
+
+          sendSlackMsgWithDebounce(`${data.firstname} ${data.lastname} has saved their RSVP:${attending}${starter}${main}${dietary}`, req.body.key);
         }
         res.json({
           success: true,

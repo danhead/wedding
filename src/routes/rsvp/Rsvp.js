@@ -35,11 +35,14 @@ class Rsvp extends React.Component {
           ].join(' ')}
         />
         <div className={s.container}>
-          <h1 className={s.heading}>Répondez, s&#39;il vous plaît</h1>
+          <h1 className={s.heading}>Odpovezte prosím</h1>
           <div className={s.flexContainer}>
             {this.props.people.map(person => (
               <RsvpCard key={person.key} person={person} focusCallback={this.focusCallback} />
             ))}
+          </div>
+          <div className={s.notes}>
+            <p>You can modify the above details up until XX/XX/XXXX</p>
           </div>
         </div>
       </div>

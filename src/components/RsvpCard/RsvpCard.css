@@ -1,9 +1,6 @@
 @import '../variables.css';
 
 .root {
-  display: flex;
-  flex-flow: row wrap;
-  flex-direction: column;
   width: 100%;
   margin: 0 0 40px;
   padding: 20px;
@@ -11,11 +8,13 @@
   border-radius: 14px;
   background-color: rgba(0, 0, 0, 0.4);
   color: #fff;
+  text-align: left;
 }
 
 @media (--sm-viewport) {
   .root {
-    width: 50%;
+    width: 40%;
+    max-width: 400px;
   }
 }
 
@@ -41,11 +40,14 @@
   outline: 0;
   border: 3px solid #fff;
   border-radius: 14px;
-  background: #fff;
+  background-color: #fff;
   color: #616161;
   font-size: 18px;
   line-height: 1.3333333;
-  transition: border-color ease-in-out 0.15s, box-shadow ease-in-out 0.15s;
+  transition:
+    border-color ease-in-out 0.3s,
+    box-shadow ease-in-out 0.3s,
+    background-color ease-in-out 0.3s;
 }
 
 .input:focus {

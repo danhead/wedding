@@ -73,22 +73,15 @@ class RsvpCard extends React.Component {
           });
 
           if (!this.state.saveCompleted) {
-            this.setState({ saveSompleted: true });
+            this.setState({ saveCompleted: true });
             this.saveData('completed', true);
           }
-
-          setTimeout(() => {
-            this.setState({
-              summaryState: null,
-              summary: null,
-            });
-          }, 5000);
         }
 
         state[stateKey] = data.success ? 'saved' : 'error';
         setTimeout(() => {
           this.setState(state);
-        }, 500);
+        }, 1000);
       }).catch(() => {
         state[stateKey] = 'error';
       });
@@ -105,6 +98,14 @@ class RsvpCard extends React.Component {
   handleDietaryBlur = (event) => {
     this.saveData('dietary', event.target.value);
   };
+
+  handleDietaryChange = (event) => {
+    const value = event.target.value;
+    clearTimeout(this.dietaryChangeTimer);
+    this.dietaryChangeTimer = setTimeout(() => {
+      this.saveData('dietary', value);
+    }, 5000);
+  }
 
   handleStarterChange = (event) => {
     this.saveData('starter', event.target.value);
@@ -245,8 +246,10 @@ class RsvpCard extends React.Component {
                 name="dietary"
                 autoComplete="off"
                 defaultValue={this.props.person.dietary}
+                onChange={this.handleDietaryChange}
                 onBlur={this.handleDietaryBlur}
                 onFocus={this.props.focusCallback}
+                placeholder="None"
               />
               <div className={s.iconContainer}>
                 {this.state.saveDietary === 'saved' ? <MdCheck size={30} color="green" /> : null}

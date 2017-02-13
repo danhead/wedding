@@ -19,28 +19,36 @@
 }
 
 .bgImageFocus {
-  filter: grayscale(0.4) brightness(1);
+  filter: grayscale(0.4) brightness(0.8);
 }
 
 .container {
   padding-top: 5vh;
   margin: 0 20px;
+  text-align: center;
 }
 
 .heading {
   font-family: var(--font-family-cursive);
-  color: var(--colour-nearblack);
   text-align: center;
+  margin-top: 0;
+  font-size: 4em;
+  color: #fff;
+  text-shadow: 2px 2px 6px var(--colour-nearblack);
 }
 
 .flexContainer {
   display: flex;
-  flex-direction: row;
   flex-flow: row wrap;
+  justify-content: space-around;
 }
 
-@media (--sm-viewport) {
-  .flexContainer {
-    flex-flow: row nowrap;
-  }
+.notes {
+  display: inline-block;
+  margin: 0 auto 40px;
+  padding: 0 15px;
+  border: 3px solid #fff;
+  border-radius: 14px;
+  background-color: rgba(0, 0, 0, 0.4);
+  color: #fff;
 }
