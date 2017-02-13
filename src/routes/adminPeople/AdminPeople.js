@@ -2,6 +2,7 @@ import React, { PropTypes } from 'react';
 import withStyles from 'isomorphic-style-loader/lib/withStyles';
 import s from './AdminPeople.css';
 import Link from '../../components/Link';
+import Button from '../../components/Button';
 
 class AdminPeople extends React.Component {
   static propTypes = {
@@ -41,9 +42,9 @@ class AdminPeople extends React.Component {
                   <td>
                     <form method="post" action="/admin/person/delete">
                       <input type="hidden" name="key" value={person.key} />
-                      <button className={s.button} type="submit">
+                      <Button type="submit">
                         Delete
-                      </button>
+                      </Button>
                     </form>
                   </td>
                 </tr>
@@ -98,9 +99,9 @@ class AdminPeople extends React.Component {
               />
             </div>
             <div className={s.formGroup}>
-              <button className={s.button} type="submit">
+              <Button type="submit">
                 Save
-              </button>
+              </Button>
             </div>
           </form>
         </div>

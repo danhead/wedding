@@ -2,6 +2,7 @@ import React, { PropTypes } from 'react';
 import withStyles from 'isomorphic-style-loader/lib/withStyles';
 import s from './RsvpButton.css';
 import fetch from '../../core/fetch';
+import Button from '../Button';
 
 class RsvpButton extends React.Component {
   static propTypes = {
@@ -79,9 +80,9 @@ class RsvpButton extends React.Component {
             !this.state.showRsvpForm ? s.rsvpVisible : null,
           ].join(' ')}
         >
-          <button className={s.button} onClick={this.showRsvpForm}>
+          <Button onClick={this.showRsvpForm}>
             RSVP
-          </button>
+          </Button>
         </div>
         <div
           className={[

@@ -1,6 +1,7 @@
 import React, { PropTypes } from 'react';
 import withStyles from 'isomorphic-style-loader/lib/withStyles';
 import s from './AdminPerson.css';
+import Button from '../../components/Button';
 
 class AdminPerson extends React.Component {
   static propTypes = {
@@ -86,9 +87,9 @@ class AdminPerson extends React.Component {
               />
             </div>
             <div className={s.formGroup}>
-              <button className={s.button} type="submit">
+              <Button type="submit">
                 Save
-              </button>
+              </Button>
             </div>
           </form>
 
