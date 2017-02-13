@@ -1,5 +1,6 @@
 FROM node:7.2.1-alpine
 
+ENV NODE_ENV production
 ENV DATABASE_PATH db/wedding.db
 ENV PORT 80
 EXPOSE 80
