@@ -25,6 +25,7 @@ import { port, auth, starters, mains, rsvpEndDate } from './config';
 import Person from './data/models/Person';
 import Rollbar from './core/rollbar';
 import { sendSlackMsgWithDebounce } from './core/slack';
+import sequelize from './data/sequelize';
 
 const app = express();
 
@@ -228,10 +229,6 @@ app.use('/admin*', (req, res, next) => {
 
 app.post('/admin/person', (req, res, next) => {
   try {
-    if (!req.user || !admin(req.user.email)) {
-      res.redirect(401, '/login');
-    }
-
     const data = {
       firstname: req.body.firstname,
       lastname: req.body.lastname,
@@ -252,16 +249,50 @@ app.post('/admin/person', (req, res, next) => {
 
 app.post('/admin/person/delete', (req, res, next) => {
   try {
-    if (!req.user || !admin(req.user.email)) {
-      res.redirect(401, '/login');
-    }
-
     if (req.body.key) {
       Person.destroy({
         where: { key: req.body.key },
       }).then(() => {
         res.redirect('/admin/people');
       });
+    }
+  } catch (err) {
+    Rollbar.handleError(err);
+    next(err);
+  }
+});
+
+app.get('/admin/people/export', (req, res, next) => {
+  try {
+    Person.findAll()
+      .then(data => {
+        res.json(data);
+      })
+      .catch(err => {
+        Rollbar.handleError(err);
+        next(err);
+      });
+  } catch (err) {
+    Rollbar.handleError(err);
+    next(err);
+  }
+});
+
+app.post('/admin/people/import', (req, res, next) => {
+  try {
+    if (req.body.data && req.body.data.length > 0) {
+      Person.destroy({ where: {} }).then(() => {
+        const promises = [];
+        req.body.data.map(person => promises.push(Person.create(person)));
+        sequelize.Promise.all(promises).then(() => {
+          res.json({ success: true });
+        });
+      }).catch(err => {
+        Rollbar.handleError(err);
+        next(err);
+      });
+    } else {
+      res.json({ success: false, error: 'no data' });
     }
   } catch (err) {
     Rollbar.handleError(err);
