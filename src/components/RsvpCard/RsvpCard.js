@@ -21,6 +21,7 @@ class RsvpCard extends React.Component {
       starter: PropTypes.string,
       main: PropTypes.string,
     }).isRequired,
+    isEditable: PropTypes.bool.isRequired,
   };
 
   constructor(props) {
@@ -32,6 +33,11 @@ class RsvpCard extends React.Component {
       saveMain: this.props.person.main !== '-1' ? 'saved' : null,
       saveDietary: this.props.person.dietary ? 'saved' : null,
     };
+
+    if (!this.props.isEditable) {
+      this.state.summaryState = 'readonly';
+      this.state.summary = 'Sorry, you can no longer change your RSVP.';
+    }
   }
 
   isRSVPComplete(prop, value) {
@@ -143,6 +149,7 @@ class RsvpCard extends React.Component {
                 defaultValue="-1"
                 onChange={this.handleAttendingChange}
                 onFocus={this.props.focusCallback}
+                disabled={!this.props.isEditable}
               >
                 <option value="-1" disabled>Will you be attending?</option>
                 <option value="true">
@@ -164,6 +171,7 @@ class RsvpCard extends React.Component {
                 defaultValue={this.props.person.attending === true ? 'true' : 'false'}
                 onChange={this.handleAttendingChange}
                 onFocus={this.props.focusCallback}
+                disabled={!this.props.isEditable}
               >
                 <option value="true">
                   Yes
@@ -194,6 +202,7 @@ class RsvpCard extends React.Component {
                 defaultValue={this.props.person.starter}
                 onChange={this.handleStarterChange}
                 onFocus={this.props.focusCallback}
+                disabled={!this.props.isEditable}
               >
                 {this.props.person.starter === '-1' ? <option value="-1" disabled>Please select a starter</option> : null}
                 {starters.map((starter, index) => (
@@ -220,6 +229,7 @@ class RsvpCard extends React.Component {
                 defaultValue={this.props.person.main}
                 onChange={this.handleMainChange}
                 onFocus={this.props.focusCallback}
+                disabled={!this.props.isEditable}
               >
                 {this.props.person.main === '-1' ? <option value="-1" disabled>Please select a main course</option> : null}
                 {mains.map((main, index) => (
@@ -249,6 +259,7 @@ class RsvpCard extends React.Component {
                 onChange={this.handleDietaryChange}
                 onBlur={this.handleDietaryBlur}
                 onFocus={this.props.focusCallback}
+                disabled={!this.props.isEditable}
                 placeholder="None"
               />
               <div className={s.iconContainer}>
@@ -262,6 +273,7 @@ class RsvpCard extends React.Component {
           className={[
             s.rsvpSummary,
             this.state.summaryState === 'success' ? s.rsvpSummarySuccess : null,
+            this.state.summaryState === 'readonly' ? s.rsvpSummaryReadOnly : null,
           ].join(' ')}
         >
           {this.state.summary}

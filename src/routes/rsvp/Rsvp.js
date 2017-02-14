@@ -14,6 +14,8 @@ class Rsvp extends React.Component {
       starter: PropTypes.string,
       main: PropTypes.string,
     })).isRequired,
+    rsvpEnd: PropTypes.string.isRequired,
+    isEditable: PropTypes.bool.isRequired,
   };
 
   constructor(props) {
@@ -38,11 +40,16 @@ class Rsvp extends React.Component {
           <h1 className={s.heading}>Odpovezte prosím</h1>
           <div className={s.flexContainer}>
             {this.props.people.map(person => (
-              <RsvpCard key={person.key} person={person} focusCallback={this.focusCallback} />
+              <RsvpCard
+                key={person.key}
+                person={person}
+                focusCallback={this.focusCallback}
+                isEditable={this.props.isEditable}
+              />
             ))}
           </div>
           <div className={s.notes}>
-            <p>You can modify the above details up until XX/XX/XXXX</p>
+            <p>You can modify the above details up until {this.props.rsvpEnd}</p>
           </div>
         </div>
       </div>

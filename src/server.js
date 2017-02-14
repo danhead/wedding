@@ -21,7 +21,7 @@ import models from './data/models';
 import schema from './data/schema';
 import routes from './routes';
 import assets from './assets'; // eslint-disable-line import/no-unresolved
-import { port, auth, starters, mains } from './config';
+import { port, auth, starters, mains, rsvpEndDate } from './config';
 import Person from './data/models/Person';
 import Rollbar from './core/rollbar';
 import { sendSlackMsgWithDebounce } from './core/slack';
@@ -143,27 +143,40 @@ app.get('/rsvp/:code', bouncer.block, (req, res, next) => {
 
 app.post('/rsvp/save', (req, res) => {
   try {
-    const update = {};
-    update[req.body.prop] = req.body.value;
-    Person.update(update, {
-      where: {
-        key: req.body.key,
-      },
-    }).then(() => {
-      Person.findOne({
-        where: { key: req.body.key },
-      }).then(data => {
-        if (data.completed) {
-          const attending = `\nAttending: ${data.attending ? 'Yes' : 'No'}`;
-          const starter = (data.attending && data.starter !== -1) ? `\nStarter: ${starters[data.starter]}` : '';
-          const main = (data.attending && data.main !== -1) ? `\nMain: ${mains[data.main]}` : '';
-          const dietary = (data.attending && data.dietary) ? `\nDietary requirements: ${data.dietary}` : '';
+    if (new Date() > rsvpEndDate) {
+      res.json({
+        success: false,
+        err: 'RSVP end date has elapsed',
+      });
+    } else {
+      const update = {};
+      update[req.body.prop] = req.body.value;
+      Person.update(update, {
+        where: {
+          key: req.body.key,
+        },
+      }).then(() => {
+        Person.findOne({
+          where: { key: req.body.key },
+        }).then(data => {
+          if (data.completed) {
+            const attending = `\nAttending: ${data.attending ? 'Yes' : 'No'}`;
+            const starter = (data.attending && data.starter !== -1) ? `\nStarter: ${starters[data.starter]}` : '';
+            const main = (data.attending && data.main !== -1) ? `\nMain: ${mains[data.main]}` : '';
+            const dietary = (data.attending && data.dietary) ? `\nDietary requirements: ${data.dietary}` : '';
 
-          sendSlackMsgWithDebounce(`${data.firstname} ${data.lastname} has saved their RSVP:${attending}${starter}${main}${dietary}`, req.body.key);
-        }
-        res.json({
-          success: true,
-          prop: req.body.prop,
+            sendSlackMsgWithDebounce(`${data.firstname} ${data.lastname} has saved their RSVP:${attending}${starter}${main}${dietary}`, req.body.key);
+          }
+          res.json({
+            success: true,
+            prop: req.body.prop,
+          });
+        }).catch(err => {
+          Rollbar.handleError(err);
+          res.json({
+            success: false,
+            err,
+          });
         });
       }).catch(err => {
         Rollbar.handleError(err);
@@ -172,13 +185,7 @@ app.post('/rsvp/save', (req, res) => {
           err,
         });
       });
-    }).catch(err => {
-      Rollbar.handleError(err);
-      res.json({
-        success: false,
-        err,
-      });
-    });
+    }
   } catch (err) {
     Rollbar.handleError(err);
     res.json({

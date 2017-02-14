@@ -44,10 +44,11 @@
   color: #616161;
   font-size: 18px;
   line-height: 1.3333333;
-  transition:
-    border-color ease-in-out 0.3s,
-    box-shadow ease-in-out 0.3s,
-    background-color ease-in-out 0.3s;
+  transition: border-color ease-in-out 0.3s, box-shadow ease-in-out 0.3s, background-color ease-in-out 0.3s;
+}
+
+.input:disabled {
+  opacity: 0.5;
 }
 
 .input:focus {
@@ -85,5 +86,9 @@
 }
 
 .rsvpSummarySuccess {
+  opacity: 1;
+}
+
+.rsvpSummaryReadOnly {
   opacity: 1;
 }
