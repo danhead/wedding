@@ -236,6 +236,7 @@ app.post('/admin/person', (req, res, next) => {
       firstname: req.body.firstname,
       lastname: req.body.lastname,
       email: req.body.email,
+      ceremony: req.body.ceremony,
     };
 
     if (req.body.password && req.body.password !== '') {

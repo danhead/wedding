@@ -17,6 +17,7 @@ class RsvpCard extends React.Component {
       password: PropTypes.string,
       completed: PropTypes.boolean,
       attending: PropTypes.boolean,
+      ceremony: PropTypes.boolean,
       dietary: PropTypes.string,
       starter: PropTypes.string,
       main: PropTypes.string,
@@ -46,6 +47,8 @@ class RsvpCard extends React.Component {
     }
 
     if (prop === 'attending' && value === 'false') { return true; }
+
+    if (!this.props.person.ceremony) { return true; }
 
     return (isOK(this.state.saveAttending) &&
       isOK(this.state.saveStarter) &&
@@ -186,7 +189,12 @@ class RsvpCard extends React.Component {
               {this.state.saveAttending === 'error' ? <MdError size={30} color="red" /> : null}
             </div>
           </div>
-          <div className={[s.rsvpDetails, this.state.detailsVisible ? s.rsvpDetailsVisible : null].join(' ')}>
+          <div
+            className={[
+              s.rsvpDetails,
+              this.state.detailsVisible && this.props.person.ceremony ? s.rsvpDetailsVisible : null,
+            ].join(' ')}
+          >
             <div className={s.formGroup}>
               <label className={s.label} htmlFor="starter">
                 Starter:

@@ -14,6 +14,7 @@ class AdminPerson extends React.Component {
       email: PropTypes.string,
       password: PropTypes.string,
       attending: PropTypes.boolean,
+      ceremony: PropTypes.boolean,
     }).isRequired,
   };
 
@@ -73,6 +74,20 @@ class AdminPerson extends React.Component {
                 name="email"
                 defaultValue={this.props.person.email}
               />
+            </div>
+            <div className={s.formGroup}>
+              <label className={s.label} htmlFor="ceremony">
+                Invite type:
+              </label>
+              <select
+                className={s.input}
+                id="cermony"
+                name="ceremony"
+                defaultValue={this.props.person.ceremony ? 'true' : 'false'}
+              >
+                <option value="true">Full day</option>
+                <option value="false">Evening only</option>
+              </select>
             </div>
             <div className={s.formGroup}>
               <label className={s.label} htmlFor="password">

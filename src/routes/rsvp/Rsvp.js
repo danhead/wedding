@@ -10,6 +10,7 @@ class Rsvp extends React.Component {
       firstname: PropTypes.string,
       lastname: PropTypes.string,
       email: PropTypes.string,
+      ceremony: PropTypes.boolean,
       dietary: PropTypes.string,
       starter: PropTypes.string,
       main: PropTypes.string,

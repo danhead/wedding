@@ -88,6 +88,19 @@ class AdminPeople extends React.Component {
               />
             </div>
             <div className={s.formGroup}>
+              <label className={s.label} htmlFor="ceremony">
+                Invite type:
+              </label>
+              <select
+                className={s.input}
+                id="cermony"
+                name="ceremony"
+              >
+                <option value="true">Full day</option>
+                <option value="false">Evening only</option>
+              </select>
+            </div>
+            <div className={s.formGroup}>
               <label className={s.label} htmlFor="password">
                 Password (blank will autogenerate):
               </label>

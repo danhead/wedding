@@ -46,7 +46,7 @@ export default {
       return { redirect: '/' };
     }
 
-    const resp = await fetchQL('{getPersonsByPassword{key,firstname,lastname,attending,dietary,starter,main}}', {
+    const resp = await fetchQL('{getPersonsByPassword{key,firstname,lastname,attending,ceremony,dietary,starter,main}}', {
       password: params.password,
     });
 

@@ -16,6 +16,7 @@ const PersonItemType = new ObjectType({
     email: { type: StringType },
     completed: { type: BooleanType },
     attending: { type: BooleanType },
+    ceremony: { type: BooleanType },
     dietary: { type: StringType },
     starter: { type: StringType },
     main: { type: StringType },

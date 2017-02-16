@@ -48,6 +48,10 @@ const Person = Model.define('Person', {
     type: DataType.BOOLEAN,
   },
 
+  ceremony: {
+    type: DataType.BOOLEAN,
+  },
+
   dietary: {
     type: DataType.STRING(255),
   },
