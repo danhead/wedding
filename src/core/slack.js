@@ -8,9 +8,9 @@ slack.setWebhook(slackWebhook);
 // Debounce sending the slack message to avoid spamming
 const slackTimers = {};
 
-export const sendSlackMsg = function sendSlackMsg(text) {
+export const sendSlackMsg = function sendSlackMsg(text, channel) {
   slack.webhook({
-    channel: '#wedding-rsvps',
+    channel,
     username: 'weddingbot',
     text,
   }, err => {
@@ -20,12 +20,12 @@ export const sendSlackMsg = function sendSlackMsg(text) {
   });
 };
 
-export const sendSlackMsgWithDebounce = function sendSlackMsgWithDebounce(text, key) {
+export const sendSlackMsgWithDebounce = function sendSlackMsgWithDebounce(text, channel, key) {
   if (key) {
     // Stop previous msg
     clearTimeout(slackTimers[key]);
     slackTimers[key] = setTimeout(() => {
-      sendSlackMsg(text);
+      sendSlackMsg(text, channel);
     }, 10000);
   }
 };

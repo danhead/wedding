@@ -24,7 +24,7 @@ import assets from './assets'; // eslint-disable-line import/no-unresolved
 import { port, auth, starters, mains, rsvpEndDate } from './config';
 import Person from './data/models/Person';
 import Rollbar from './core/rollbar';
-import { sendSlackMsgWithDebounce } from './core/slack';
+import { sendSlackMsg, sendSlackMsgWithDebounce } from './core/slack';
 import sequelize from './data/sequelize';
 
 const app = express();
@@ -33,12 +33,15 @@ Rollbar.init();
 const bouncer = Bouncer(10 * 60 * 1000, 60 * 60 * 1000, 5);
 bouncer.blocked = (req, res, next, remaining) => {
   let time = Math.ceil(remaining / 1000);
-  let suffix = ' seconds';
+  let suffix = 'seconds';
   if (time > 120) {
     time = Math.ceil(time / 60);
-    suffix = ' minutes';
+    suffix = 'minutes';
   }
   const body = `You have made too many incorrect attempts. Please wait ${time} ${suffix}.`;
+  const uAgent = req.headers['user-agent'];
+  const ip = req.headers['x-forwarded-for'];
+  sendSlackMsg(`Bouncer block\nIP address: ${ip}\nUser agent: ${uAgent}\nDuration: ${time} ${suffix}`, '#wedding-site');
   res.status(429).send(body);
 };
 
@@ -166,7 +169,7 @@ app.post('/rsvp/save', (req, res) => {
             const main = (data.attending && data.main !== -1) ? `\nMain: ${mains[data.main]}` : '';
             const dietary = (data.attending && data.dietary) ? `\nDietary requirements: ${data.dietary}` : '';
 
-            sendSlackMsgWithDebounce(`${data.firstname} ${data.lastname} has saved their RSVP:${attending}${starter}${main}${dietary}`, req.body.key);
+            sendSlackMsgWithDebounce(`${data.firstname} ${data.lastname} has saved their RSVP:${attending}${starter}${main}${dietary}`, '#wedding-rsvps', req.body.key);
           }
           res.json({
             success: true,
