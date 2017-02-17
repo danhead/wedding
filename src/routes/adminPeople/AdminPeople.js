@@ -12,6 +12,7 @@ class AdminPeople extends React.Component {
       firstname: PropTypes.string,
       lastname: PropTypes.string,
       completed: PropTypes.boolean,
+      ceremony: PropTypes.boolean,
       email: PropTypes.string,
       password: PropTypes.string,
       attending: PropTypes.boolean,
@@ -31,6 +32,8 @@ class AdminPeople extends React.Component {
                 <td>Name</td>
                 <td>Email</td>
                 <td>Password</td>
+                <td>Ceremony</td>
+                <td>Responded</td>
               </tr>
             </thead>
             <tbody>
@@ -39,6 +42,8 @@ class AdminPeople extends React.Component {
                   <td><Link to={`/admin/person/${person.key}`}>{person.firstname} {person.lastname}</Link></td>
                   <td>{person.email}</td>
                   <td><Link to={`/rsvp/${person.password}`}>{person.password}</Link></td>
+                  <td>{person.ceremony ? 'Full day' : 'Evening only'}</td>
+                  <td>{person.completed ? 'Yes' : 'No'}</td>
                   <td>
                     <form method="post" action="/admin/person/delete">
                       <input type="hidden" name="key" value={person.key} />

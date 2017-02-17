@@ -242,9 +242,20 @@ app.post('/admin/person', (req, res, next) => {
     if (req.body.password && req.body.password !== '') {
       data.password = req.body.password;
     }
-
-    Person.create(data);
-    res.redirect('/admin/people');
+    let promise;
+    if (req.body.key) {
+      promise = Person.update(data, {
+        where: { key: req.body.key },
+      });
+    } else {
+      promise = Person.create(data);
+    }
+    promise.then(() => {
+      res.redirect('/admin/people');
+    }).catch(err => {
+      Rollbar.handleError(err);
+      next(err);
+    });
   } catch (err) {
     Rollbar.handleError(err);
     next(err);

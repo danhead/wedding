@@ -36,7 +36,12 @@ class AdminPerson extends React.Component {
       <div className={s.root}>
         <div className={s.container}>
           <h1>{this.state.firstname} {this.state.lastname}</h1>
-          <form method="post" action="/admin/person_todo">
+          <form method="post" action="/admin/person">
+            <input
+              type="hidden"
+              name="key"
+              value={this.props.person.key}
+            />
             <div className={s.formGroup}>
               <label className={s.label} htmlFor="firstname">
                 First name:
