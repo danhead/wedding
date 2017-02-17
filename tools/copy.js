@@ -1,5 +1,6 @@
 import path from 'path';
 import chokidar from 'chokidar';
+import { exec } from 'child_process';
 import { writeFile, copyFile, makeDir, copyDir, cleanDir } from './lib/fs';
 import pkg from '../package.json';
 import { format } from './run';
@@ -23,7 +24,16 @@ async function copy() {
     copyDir('src/content', 'build/content'),
     copyDir('public', 'build/public'),
   ]);
-
+  await exec('git log -n 1 --pretty=format:"%H"', (err, stdout) => {
+    if (stdout) {
+      writeFile('build/public/config.json', JSON.stringify({
+        build: {
+          hash: stdout,
+          time: new Date(),
+        },
+      }, null, 2));
+    }
+  });
   if (process.argv.includes('--watch')) {
     const watcher = chokidar.watch([
       'src/content/**/*',
