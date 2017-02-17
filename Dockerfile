@@ -32,6 +32,8 @@ RUN curl https://api.rollbar.com/api/1/deploy/ \
 	-F revision=$(git log -n 1 --pretty=format:"%H") \
 	-F local_username="$(git log -n 1 --pretty=format:"%an")"
 
+RUN node setup.js
+
 WORKDIR /usr/src/app/build
 
 CMD [ "node", "server.js" ]

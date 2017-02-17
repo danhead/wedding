@@ -22,6 +22,10 @@ class Admin extends React.Component {
       name: PropTypes.string,
       total: PropTypes.integer,
     })).isRequired,
+    build: PropTypes.shape({
+      hash: PropTypes.string,
+      time: PropTypes.string,
+    }),
   };
 
   render() {
@@ -49,6 +53,12 @@ class Admin extends React.Component {
                 <li key={index}>{main.name} - {main.total}</li>
               ))}
             </ul>
+          </div>
+          <div>
+            Build hash: <a href={`https://bitbucket.org/dan_head/wedding/commits/${this.props.build.hash}`}>{this.props.build.hash}</a>
+          </div>
+          <div>
+            Build time: {this.props.build.time}
           </div>
         </div>
       </div>
