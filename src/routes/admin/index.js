@@ -17,6 +17,7 @@ export default {
         Accept: 'application/json',
         'Content-Type': 'application/json',
       },
+      credentials: 'include',
     });
     const { data } = await resp.json();
     const config = await configResp.json();
