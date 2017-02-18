@@ -295,19 +295,20 @@ app.get('/admin/people/export', (req, res, next) => {
 
 app.post('/admin/people/import', (req, res, next) => {
   try {
-    if (req.body.data && req.body.data.length > 0) {
+    if (req.body.importdata && req.body.importdata.length > 0) {
+      const data = JSON.parse(req.body.importdata);
       Person.destroy({ where: {} }).then(() => {
         const promises = [];
-        req.body.data.map(person => promises.push(Person.create(person)));
+        data.map(person => promises.push(Person.create(person)));
         sequelize.Promise.all(promises).then(() => {
-          res.json({ success: true });
+          res.redirect(201, '/admin/people');
         });
       }).catch(err => {
         Rollbar.handleError(err);
         next(err);
       });
     } else {
-      res.json({ success: false, error: 'no data' });
+      res.redirect(400, '/admin/people');
     }
   } catch (err) {
     Rollbar.handleError(err);

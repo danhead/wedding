@@ -73,3 +73,11 @@ td {
 .showSortIcon {
   display: inline-block;
 }
+
+.importForm {
+  display: none;
+}
+
+.importFormVisible {
+  display: block;
+}

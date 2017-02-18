@@ -48,6 +48,11 @@ class AdminPeople extends React.Component {
     this.setState({ personFormVisible: !this.state.personFormVisible });
   }
 
+  openImportForm = (event) => {
+    event.preventDefault();
+    this.setState({ openImportForm: true });
+  }
+
   render() {
     return (
       <div className={s.root}>
@@ -176,7 +181,7 @@ class AdminPeople extends React.Component {
           </table>
           }
           <h2>
-            <a href="#sortcolumn" onClick={this.togglePersonForm}>
+            <a href="#openpersonform" onClick={this.togglePersonForm}>
               <span>{this.state.personFormVisible ? '-' : '+'}</span> Add Person
             </a>
           </h2>
@@ -243,6 +248,36 @@ class AdminPeople extends React.Component {
                 id="password"
                 type="text"
                 name="password"
+              />
+            </div>
+            <div className={s.formGroup}>
+              <Button type="submit">
+                Save
+              </Button>
+            </div>
+          </form>
+          <div>
+            <a href="#openimportform" onClick={this.openImportForm}>Import data</a>
+            {!this.state.openImportForm ? ' / ' : null}
+            {!this.state.openImportForm ? <a href="/admin/people/export">Export data</a> : null}
+          </div>
+          <form
+            method="post"
+            action="/admin/people/import"
+            className={[
+              s.importForm,
+              this.state.openImportForm ? s.importFormVisible : null,
+            ].join(' ')}
+          >
+            <div className={s.formGroup}>
+              <label className={s.label} htmlFor="importdata">
+                Enter JSON:
+              </label>
+              <textarea
+                className={s.input}
+                id="importdata"
+                type="text"
+                name="importdata"
               />
             </div>
             <div className={s.formGroup}>
