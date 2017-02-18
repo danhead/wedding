@@ -4,6 +4,7 @@ import s from './Button.css';
 
 class Button extends React.Component {
   static propTypes = {
+    to: PropTypes.string,
     children: PropTypes.node,
     onClick: PropTypes.func,
   };
@@ -11,6 +12,10 @@ class Button extends React.Component {
   handleClick = (event) => {
     if (this.props.onClick) {
       this.props.onClick(event);
+    }
+
+    if (this.props.to) {
+      window.location.href = this.props.to;
     }
   };
 

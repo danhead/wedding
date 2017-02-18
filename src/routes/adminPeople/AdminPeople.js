@@ -19,31 +19,149 @@ class AdminPeople extends React.Component {
     })).isRequired,
   };
 
+  constructor(props) {
+    super(props);
+    this.state = {
+      people: this.props.people,
+      personFormVisible: false,
+      sortDirection: false,
+    };
+  }
+
+  sortPeople = (event, sortedBy) => {
+    event.preventDefault();
+    const sortDirection = (sortedBy === this.state.sortedBy) ? !this.state.sortDirection : true;
+    this.setState({
+      sortedBy,
+      sortDirection,
+      people: this.props.people.sort((a, b) => {
+        if (a[sortedBy] > b[sortedBy]) {
+          return sortDirection ? 1 : -1;
+        }
+        return sortDirection ? -1 : 1;
+      }),
+    });
+  }
+
+  togglePersonForm = (event) => {
+    event.preventDefault();
+    this.setState({ personFormVisible: !this.state.personFormVisible });
+  }
+
   render() {
     return (
       <div className={s.root}>
         <div className={s.container}>
           <h1>{this.props.title}</h1>
 
-          {this.props.people.length === 0 ? <p> No people yet ☹️</p> :
+          {this.state.people.length === 0 ? <p> No people yet ☹️</p> :
           <table>
             <thead>
               <tr>
-                <td>Name</td>
-                <td>Email</td>
-                <td>Password</td>
-                <td>Ceremony</td>
-                <td>Responded</td>
+                <td>
+                  <span
+                    className={[
+                      s.sortIcon,
+                      this.state.sortedBy === 'firstname' && this.state.sortDirection ? s.showSortIcon : null,
+                    ].join(' ')}
+                  >⬇</span>
+                  <span
+                    className={[
+                      s.sortIcon,
+                      this.state.sortedBy === 'firstname' && !this.state.sortDirection ? s.showSortIcon : null,
+                    ].join(' ')}
+                  >⬆</span>
+                  <a href="#sortcolumn" onClick={event => this.sortPeople(event, 'firstname')}>First name</a>
+                </td>
+                <td>
+                  <span
+                    className={[
+                      s.sortIcon,
+                      this.state.sortedBy === 'lastname' && this.state.sortDirection ? s.showSortIcon : null,
+                    ].join(' ')}
+                  >⬇</span>
+                  <span
+                    className={[
+                      s.sortIcon,
+                      this.state.sortedBy === 'lastname' && !this.state.sortDirection ? s.showSortIcon : null,
+                    ].join(' ')}
+                  >⬆</span>
+                  <a href="#sortcolumn" onClick={event => this.sortPeople(event, 'lastname')}>Last name</a>
+                </td>
+                <td>
+                  <span
+                    className={[
+                      s.sortIcon,
+                      this.state.sortedBy === 'email' && this.state.sortDirection ? s.showSortIcon : null,
+                    ].join(' ')}
+                  >⬇</span>
+                  <span
+                    className={[
+                      s.sortIcon,
+                      this.state.sortedBy === 'email' && !this.state.sortDirection ? s.showSortIcon : null,
+                    ].join(' ')}
+                  >⬆</span>
+                  <a href="#sortcolumn" onClick={event => this.sortPeople(event, 'email')}>Email</a>
+                </td>
+                <td>
+                  <span
+                    className={[
+                      s.sortIcon,
+                      this.state.sortedBy === 'password' && this.state.sortDirection ? s.showSortIcon : null,
+                    ].join(' ')}
+                  >⬇</span>
+                  <span
+                    className={[
+                      s.sortIcon,
+                      this.state.sortedBy === 'password' && !this.state.sortDirection ? s.showSortIcon : null,
+                    ].join(' ')}
+                  >⬆</span>
+                  <a href="#sortcolumn" onClick={event => this.sortPeople(event, 'password')}>Password</a>
+                </td>
+                <td>
+                  <span
+                    className={[
+                      s.sortIcon,
+                      this.state.sortedBy === 'ceremony' && this.state.sortDirection ? s.showSortIcon : null,
+                    ].join(' ')}
+                  >⬇</span>
+                  <span
+                    className={[
+                      s.sortIcon,
+                      this.state.sortedBy === 'ceremony' && !this.state.sortDirection ? s.showSortIcon : null,
+                    ].join(' ')}
+                  >⬆</span>
+                  <a href="#sortcolumn" onClick={event => this.sortPeople(event, 'ceremony')}>Ceremony</a>
+                </td>
+                <td>
+                  <span
+                    className={[
+                      s.sortIcon,
+                      this.state.sortedBy === 'completed' && this.state.sortDirection ? s.showSortIcon : null,
+                    ].join(' ')}
+                  >⬇</span>
+                  <span
+                    className={[
+                      s.sortIcon,
+                      this.state.sortedBy === 'completed' && !this.state.sortDirection ? s.showSortIcon : null,
+                    ].join(' ')}
+                  >⬆</span>
+                  <a href="#sortcolumn" onClick={event => this.sortPeople(event, 'completed')}>Responded</a>
+                </td>
               </tr>
             </thead>
             <tbody>
-              {this.props.people.map(person => (
+              {this.state.people.map(person => (
                 <tr key={person.key}>
-                  <td><Link to={`/admin/person/${person.key}`}>{person.firstname} {person.lastname}</Link></td>
+                  <td>{person.firstname}</td>
+                  <td>{person.lastname}</td>
                   <td>{person.email}</td>
                   <td><Link to={`/rsvp/${person.password}`}>{person.password}</Link></td>
                   <td>{person.ceremony ? 'Full day' : 'Evening only'}</td>
                   <td>{person.completed ? 'Yes' : 'No'}</td>
+                  <td>
+                    <Button to={`/admin/person/${person.key}`}>Edit</Button>
+                  </td>
                   <td>
                     <form method="post" action="/admin/person/delete">
                       <input type="hidden" name="key" value={person.key} />
@@ -57,8 +175,19 @@ class AdminPeople extends React.Component {
             </tbody>
           </table>
           }
-          <h2>Add Person</h2>
-          <form method="post" action="/admin/person">
+          <h2>
+            <a href="#sortcolumn" onClick={this.togglePersonForm}>
+              <span>{this.state.personFormVisible ? '-' : '+'}</span> Add Person
+            </a>
+          </h2>
+          <form
+            method="post"
+            action="/admin/person"
+            className={[
+              s.personForm,
+              this.state.personFormVisible ? s.personFormVisible : null,
+            ].join(' ')}
+          >
             <div className={s.formGroup}>
               <label className={s.label} htmlFor="firstname">
                 First name:
