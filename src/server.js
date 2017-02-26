@@ -26,6 +26,7 @@ import Person from './data/models/Person';
 import Rollbar from './core/rollbar';
 import { sendSlackMsg, sendSlackMsgWithDebounce } from './core/slack';
 import sequelize from './data/sequelize';
+import { sendRSVPEmailWithDebounce } from './core/emailer';
 
 const app = express();
 
@@ -170,6 +171,7 @@ app.post('/rsvp/save', (req, res) => {
             const dietary = (data.attending && data.dietary) ? `\nDietary requirements: ${data.dietary}` : '';
 
             sendSlackMsgWithDebounce(`${data.firstname} ${data.lastname} has saved their RSVP:${attending}${starter}${main}${dietary}`, '#wedding-rsvps', req.body.key);
+            sendRSVPEmailWithDebounce(data);
           }
           res.json({
             success: true,
