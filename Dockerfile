@@ -17,14 +17,7 @@ ENV PORT 80
 EXPOSE 80
 
 # Run production build
-RUN npm run build --release --silent
-
-WORKDIR /usr/src/app/build
-
-# Install Node.js dependencies
-RUN npm install --production --silent
-
-WORKDIR /usr/src/app
+RUN npm run build -- --release --silent
 
 RUN curl https://api.rollbar.com/api/1/deploy/ \
 	-F access_token=8bf333d044df48c19a6929e4b1613a8e \
