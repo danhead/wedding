@@ -1,0 +1,6 @@
+{
+  "name": "CeremonyMap",
+  "version": "0.0.0",
+  "private": true,
+  "main": "./CeremonyMap.js"
+}

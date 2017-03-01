@@ -23,6 +23,7 @@ class Html extends React.Component {
           <link rel="apple-touch-icon" href="apple-touch-icon.png" />
           <link rel="stylesheet" href="https://fonts.googleapis.com/css?family=Palanquin+Dark|Niconne" />
           {style && <style id="css" dangerouslySetInnerHTML={{ __html: style }} />}
+          <script src="https://maps.googleapis.com/maps/api/js?key=AIzaSyAY-RO-FaBZyAh8FDJneMc6NjMdK2D8WtQ" />
         </head>
         <body>
           <div id="app" dangerouslySetInnerHTML={{ __html: children }} />

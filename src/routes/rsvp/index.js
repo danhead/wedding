@@ -38,7 +38,7 @@ export default {
     return {
       title,
       component: (
-        <Layout>
+        <Layout current="home">
           <Rsvp
             title={title}
             people={people}

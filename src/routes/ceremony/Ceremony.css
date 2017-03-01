@@ -9,7 +9,7 @@
   position: fixed;
   width: 100vw;
   height: 100vh;
-  background: url('/img/prague_2560.jpg');
+  background: url('/img/church_2560.jpg');
   background-size: cover;
   background-position-x: 54%;
   background-color: #c1c1c1;
@@ -40,15 +40,17 @@
   margin: 0 0 10px;
 }
 
-.headings h2 {
-  margin: 0 0 60px;
-}
-
-.headings h3 {
-  margin: 0 0 20px;
+.subheading {
   font-family: var(--font-family-cursive);
 }
 
-.rsvp {
-  padding-top: 10vh;
+.content {
+  max-width: 960px;
+  margin: 0 auto;
+  color: #fff;
+  text-shadow: 1px 1px 4px var(--colour-nearblack);
+}
+
+.map {
+  width: 360px;
 }

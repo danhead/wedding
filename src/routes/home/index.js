@@ -9,7 +9,7 @@ export default {
   action() {
     return {
       title: 'Welcome',
-      component: <Layout><Home /></Layout>,
+      component: <Layout current="home"><Home /></Layout>,
     };
   },
 };

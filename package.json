@@ -33,6 +33,7 @@
     "query-string": "^4.2.3",
     "react": "^15.4.1",
     "react-dom": "^15.4.1",
+    "react-google-maps": "6",
     "react-icon-base": "^2.0.4",
     "react-icons": "^2.2.3",
     "rollbar": "^0.6.3",
