@@ -16,6 +16,7 @@ class Navigation extends React.Component {
       <div className={s.root} role="navigation">
         <Link className={[s.link, this.props.current === 'home' ? s.active : null].join(' ')} to="/">RSVP</Link>
         <Link className={[s.link, this.props.current === 'ceremony' ? s.active : null].join(' ')} to="/ceremony">Church</Link>
+        <Link className={[s.link, this.props.current === 'reception' ? s.active : null].join(' ')} to="/reception">Venue</Link>
       </div>
     );
   }

@@ -10,6 +10,7 @@ export default {
     require('./home').default,
     require('./rsvp').default,
     require('./ceremony').default,
+    require('./reception').default,
     require('./login').default,
     require('./admin').default,
     require('./adminPeople').default,
