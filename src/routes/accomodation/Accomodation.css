@@ -36,15 +36,21 @@
   margin: 0 0 10px;
 }
 
-.subheading {
-  font-family: var(--font-family-cursive);
-}
-
 .content {
   max-width: 960px;
   margin: 0 auto;
   color: #fff;
   text-shadow: 1px 1px 4px var(--colour-nearblack);
+}
+
+.hotelLink {
+  color: rgba(255, 255, 255, 0.8);
+  transition: color 0.3s ease-in;
+}
+
+.hotelLink:hover,
+.hotelLink:focus {
+  color: rgba(255, 255, 255, 1);
 }
 
 .map {

@@ -12,23 +12,11 @@ const markers = [
 ];
 
 class Ceremony extends React.Component {
-  constructor(props) {
-    super(props);
-    this.state = {};
-  }
-
-  focusBgImage = (focus) => {
-    this.setState({ focusBgImage: focus });
-  }
-
   render() {
     return (
       <div className={s.root}>
         <div
-          className={[
-            s.bgImage,
-            this.state.focusBgImage ? s.bgImageFocus : null,
-          ].join(' ')}
+          className={s.bgImage}
         />
         <div className={s.container}>
           <div className={s.headings}>
