@@ -14,7 +14,7 @@ class Map extends React.Component {
   };
 
   render() {
-    const CeremonyGoogleMap = withGoogleMap(() => (
+    const GMap = withGoogleMap(() => (
       <GoogleMap
         defaultZoom={this.props.defaultZoom}
         defaultCenter={{ lat: this.props.lat, lng: this.props.lng }}
@@ -29,12 +29,25 @@ class Map extends React.Component {
       </GoogleMap>
     ));
     return (
-      <CeremonyGoogleMap
+      <GMap
         containerElement={
-          <div style={{ height: '360px', width: '360px' }} />
+          <div
+            style={{
+              height: '360px',
+              width: '100%',
+              'max-width': '480px',
+              overflow: 'hidden',
+            }}
+          />
         }
         mapElement={
-          <div style={{ height: '360px', width: '360px' }} />
+          <div
+            style={{
+              height: '360px',
+              width: '100%',
+              'max-width': '480px',
+            }}
+          />
         }
       />
     );

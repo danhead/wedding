@@ -33,14 +33,12 @@ class Reception extends React.Component {
               followed by music until late.</p>
             <h3>Where</h3>
             <p>The venue is approximately 30 minute drive from the Church.</p>
-            <div className={s.map}>
-              <Map
-                defaultZoom={12}
-                lat={offley[0].lat}
-                lng={offley[0].lng}
-                markers={offley}
-              />
-            </div>
+            <Map
+              defaultZoom={12}
+              lat={offley[0].lat}
+              lng={offley[0].lng}
+              markers={offley}
+            />
           </div>
         </div>
       </div>

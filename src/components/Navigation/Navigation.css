@@ -17,16 +17,13 @@
 }
 
 .link,
-.link:active,
 .link:visited {
   color: rgba(255, 255, 255, 0.8);
 }
 
+.active,
+.link:active,
 .link:hover {
   color: rgba(255, 255, 255, 1);
   border-color: #fff;
-}
-
-.active {
-  display: none;
 }

@@ -30,14 +30,12 @@ class Ceremony extends React.Component {
             <p>The Church is located at the southern end of Kings Langley high street.
               Parking is available across the road at the Rose and Crown pub
               (Dan may be there before 1pm 😉).</p>
-            <div className={s.map}>
-              <Map
-                defaultZoom={14}
-                lat={markers[0].lat}
-                lng={markers[0].lng}
-                markers={markers}
-              />
-            </div>
+            <Map
+              defaultZoom={14}
+              lat={markers[0].lat}
+              lng={markers[0].lng}
+              markers={markers}
+            />
             <h3>About the church</h3>
             <p>All Saints Church is a medieval church with parts dating from the 13th century.
               The main features of the body of the Church are the beautiful reredos, depicting

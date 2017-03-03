@@ -55,14 +55,12 @@ class Accomodation extends React.Component {
                 <li key={index}><a className={s.hotelLink} href={hotel.url}>{hotel.title}</a></li>
               ))}
             </ul>
-            <div className={s.map}>
-              <Map
-                defaultZoom={12}
-                lat={offley[0].lat}
-                lng={offley[0].lng}
-                markers={hotels}
-              />
-            </div>
+            <Map
+              defaultZoom={12}
+              lat={offley[0].lat}
+              lng={offley[0].lng}
+              markers={hotels}
+            />
           </div>
         </div>
       </div>
