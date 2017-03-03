@@ -25,11 +25,10 @@ class Ceremony extends React.Component {
           </div>
           <div className={s.content}>
             <h3>When</h3>
-            <p>The Ceremony begins at 1pm</p>
+            <p>The ceremony begins at 1pm</p>
             <h3>Where</h3>
-            <p>The Church is located at the southern end of Kings Langley high street.
-              Parking is available across the road at the Rose and Crown pub
-              (Dan may be there before 1pm 😉).</p>
+            <p>The church is located at the southern end of Kings Langley high street.
+              Parking is available across the road at the Rose and Crown pub.</p>
             <Map
               defaultZoom={14}
               lat={markers[0].lat}
@@ -38,7 +37,7 @@ class Ceremony extends React.Component {
             />
             <h3>About the church</h3>
             <p>All Saints Church is a medieval church with parts dating from the 13th century.
-              The main features of the body of the Church are the beautiful reredos, depicting
+              The main features of the church are the beautiful reredos, depicting
               The Last Supper, and the fine Jacobean pulpit with its intricate carvings.
               The Tower has a peal of 8 bells that are regularly rung before Services.</p>
             <p>The church was chosen because it is Dan&#8217;s family church.</p>

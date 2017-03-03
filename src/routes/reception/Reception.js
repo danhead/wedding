@@ -29,10 +29,10 @@ class Reception extends React.Component {
           </div>
           <div className={s.content}>
             <h3>When</h3>
-            <p>The Reception will begin at 3pm, Wedding breakfast at 5pm
+            <p>The Reception will begin at 3pm, Wedding Breakfast at 5pm
               followed by music until late.</p>
             <h3>Where</h3>
-            <p>The venue is approximately 30 minute drive from the Church.</p>
+            <p>The venue is approximately a 30 minute drive from the Church.</p>
             <Map
               defaultZoom={12}
               lat={offley[0].lat}

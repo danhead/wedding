@@ -41,7 +41,7 @@ class Transport extends React.Component {
           </div>
           <div className={s.content}>
             <h3>Train</h3>
-            <p>There are 3 stations nearby, Hitchin, Luton and Luton Parkway (airport).
+            <p>There are 3 stations nearby, Hitchin, Luton and Luton Parkway (Airport).
               All trains terminate at London St Pancras or London Kings Cross</p>
             <Map
               defaultZoom={11}
@@ -51,6 +51,7 @@ class Transport extends React.Component {
             />
             <h3>Car</h3>
             <p>Offley Place has secure parking facilities.</p>
+            <h3>Taxi</h3>
             <p>The following taxi companies are recommended:</p>
             <ul>
               <li>

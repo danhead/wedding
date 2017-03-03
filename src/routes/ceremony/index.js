@@ -4,11 +4,11 @@ import Layout from '../../components/Layout';
 
 export default {
 
-  path: '/ceremony',
+  path: '/church',
 
   action() {
     return {
-      title: 'Ceremony',
+      title: 'All Saints\' Church',
       component: <Layout current="ceremony"><Ceremony /></Layout>,
     };
   },

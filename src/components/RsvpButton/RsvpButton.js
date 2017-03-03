@@ -32,6 +32,7 @@ class RsvpButton extends React.Component {
     if (this.props.focusCallback) {
       this.props.focusCallback(false);
     }
+    this.setState({ showRsvpForm: false });
   }
 
   handleRsvpChange = () => {

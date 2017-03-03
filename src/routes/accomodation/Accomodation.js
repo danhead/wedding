@@ -49,7 +49,7 @@ class Accomodation extends React.Component {
             <h1>Local hotels</h1>
           </div>
           <div className={s.content}>
-            <h3>The following hotels are near Offley Place</h3>
+            <h3>The following hotels are near Offley Place:</h3>
             <ul>
               {hotels.map((hotel, index) => (
                 <li key={index}><a className={s.hotelLink} href={hotel.url}>{hotel.title}</a></li>

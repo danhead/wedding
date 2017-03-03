@@ -4,11 +4,11 @@ import Layout from '../../components/Layout';
 
 export default {
 
-  path: '/reception',
+  path: '/venue',
 
   action() {
     return {
-      title: 'Reception',
+      title: 'Offley Place',
       component: <Layout current="reception"><Reception /></Layout>,
     };
   },
