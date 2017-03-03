@@ -26,6 +26,6 @@ export const sendSlackMsgWithDebounce = function sendSlackMsgWithDebounce(text, 
     clearTimeout(slackTimers[key]);
     slackTimers[key] = setTimeout(() => {
       sendSlackMsg(text, channel);
-    }, 10000);
+    }, 60000);
   }
 };
