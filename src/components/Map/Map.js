@@ -35,7 +35,7 @@ class Map extends React.Component {
             style={{
               height: '360px',
               width: '100%',
-              'max-width': '480px',
+              maxWidth: '480px',
               overflow: 'hidden',
             }}
           />
@@ -45,7 +45,7 @@ class Map extends React.Component {
             style={{
               height: '360px',
               width: '100%',
-              'max-width': '480px',
+              maxWidth: '480px',
             }}
           />
         }

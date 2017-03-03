@@ -3,13 +3,21 @@
   top: 0;
   right: 0;
   left: 0;
-  text-align: center;
+  height: 40px;
   background: rgba(0, 0, 0, 0.1);
+  overflow: hidden;
+}
+
+.container {
+  overflow-x: auto;
+  overflow-y: hidden;
+  white-space: nowrap;
+  text-align: center;
 }
 
 .link {
   display: inline-block;
-  padding: 8px 8px 6px;
+  padding: 8px 2% 6px;
   text-decoration: none;
   font-size: 1.125em;
   border-bottom: 2px solid transparent;
