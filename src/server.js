@@ -23,6 +23,7 @@ import routes from './routes';
 import assets from './assets'; // eslint-disable-line import/no-unresolved
 import { port, auth, starters, mains, rsvpEndDate } from './config';
 import Person from './data/models/Person';
+import Settings from './data/models/Settings';
 import Rollbar from './core/rollbar';
 import { sendSlackMsg, sendSlackMsgWithDebounce } from './core/slack';
 import sequelize from './data/sequelize';
@@ -312,6 +313,29 @@ app.post('/admin/people/import', (req, res, next) => {
     } else {
       res.redirect(400, '/admin/people');
     }
+  } catch (err) {
+    Rollbar.handleError(err);
+    next(err);
+  }
+});
+
+app.post('/admin/settings', (req, res, next) => {
+  try {
+    Settings.destroy({ where: {} }).then(() => {
+      const settings = {
+        slack: !!req.body.slack,
+        email: !!req.body.email,
+      };
+      Settings.create(settings).then(() => {
+        res.redirect(201, '/admin');
+      }).catch(err => {
+        Rollbar.handleError(err);
+        next(err);
+      });
+    }).catch(err => {
+      Rollbar.handleError(err);
+      next(err);
+    });
   } catch (err) {
     Rollbar.handleError(err);
     next(err);

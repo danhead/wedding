@@ -1,6 +1,7 @@
 import Nodemailer from 'nodemailer';
 import { email, starters, mains, getRsvpEnd } from '../config';
 import { handleError } from '../core/rollbar';
+import Settings from '../data/models/Settings';
 
 const transporter = Nodemailer.createTransport({
   service: 'gmail',
@@ -36,21 +37,25 @@ ${person.attending && person.dietary.length > 0 ? `<p>Your dietary requirements 
 }
 
 export const sendRSVPEmail = function sendRSVPEmail(person) {
-  if (email.enabled) {
-    const mailOptions = {
-      from: `"${email.senderName}" <${email.senderAddress}>`,
-      to: person.email,
-      subject: 'Thank you for your RSVP',
-      text: getEmailText(person),
-      html: getEmailHTML(person),
-    };
-    // send mail with defined transport object
-    transporter.sendMail(mailOptions, (error) => {
-      if (error) {
-        handleError(error);
-      }
-    });
-  }
+  Settings.findAll().then(data => {
+    if (data[0].email) {
+      const mailOptions = {
+        from: `"${email.senderName}" <${email.senderAddress}>`,
+        to: person.email,
+        subject: 'Thank you for your RSVP',
+        text: getEmailText(person),
+        html: getEmailHTML(person),
+      };
+      // send mail with defined transport object
+      transporter.sendMail(mailOptions, (error) => {
+        if (error) {
+          handleError(error);
+        }
+      });
+    }
+  }).catch(err => {
+    handleError(err);
+  });
 };
 
 export const sendRSVPEmailWithDebounce = function sendRSVPEmailWithDebounce(person) {

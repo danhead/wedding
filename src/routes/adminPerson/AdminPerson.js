@@ -112,7 +112,6 @@ class AdminPerson extends React.Component {
               </Button>
             </div>
           </form>
-
         </div>
       </div>
     );

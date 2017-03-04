@@ -2,6 +2,7 @@ import React, { PropTypes } from 'react';
 import withStyles from 'isomorphic-style-loader/lib/withStyles';
 import s from './Admin.css';
 import Link from '../../components/Link';
+import Button from '../../components/Button';
 
 class Admin extends React.Component {
   static propTypes = {
@@ -25,6 +26,10 @@ class Admin extends React.Component {
     build: PropTypes.shape({
       hash: PropTypes.string,
       time: PropTypes.string,
+    }),
+    settings: PropTypes.shape({
+      slack: PropTypes.boolean,
+      email: PropTypes.boolean,
     }),
   };
 
@@ -53,6 +58,38 @@ class Admin extends React.Component {
                 <li key={index}>{main.name} - {main.total}</li>
               ))}
             </ul>
+          </div>
+          <div>
+            <h3>Settings</h3>
+            <form method="post" action="/admin/settings">
+              <div className={s.formGroup}>
+                <label className={s.label} htmlFor="slack">
+                  Send slack messages on RSVP:
+                </label>
+                <input
+                  className={s.input}
+                  type="checkbox"
+                  name="slack"
+                  defaultChecked={this.props.settings.slack}
+                />
+              </div>
+              <div className={s.formGroup}>
+                <label className={s.label} htmlFor="email">
+                  Send confirmation emails on RSVP:
+                </label>
+                <input
+                  className={s.input}
+                  type="checkbox"
+                  name="email"
+                  defaultChecked={this.props.settings.email}
+                />
+              </div>
+              <div className={s.formGroup}>
+                <Button type="submit">
+                  Save
+                </Button>
+              </div>
+            </form>
           </div>
           <div>
             Build hash: <a href={`https://bitbucket.org/dan_head/wedding/commits/${this.props.build.hash}`}>{this.props.build.hash}</a>

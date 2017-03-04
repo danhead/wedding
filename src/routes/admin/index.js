@@ -19,8 +19,11 @@ export default {
       },
       credentials: 'include',
     });
+
+    const settingsResp = await fetchQL('{settings{slack,email}}');
     const { data } = await resp.json();
     const config = await configResp.json();
+    const settings = await settingsResp.json();
     const people = data.getAllPersons || [];
 
     const food = {
@@ -47,6 +50,7 @@ export default {
         starters={food.starters}
         mains={food.mains}
         build={config.build}
+        settings={settings.data.settings[0]}
       /></Layout>,
     };
   },

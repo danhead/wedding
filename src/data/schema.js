@@ -7,6 +7,7 @@ import me from './queries/me';
 import getAllPersons from './queries/getAllPersons';
 import getPersonByKey from './queries/getPersonByKey';
 import getPersonsByPassword from './queries/getPersonsByPassword';
+import settings from './queries/settings';
 
 const schema = new Schema({
   query: new ObjectType({
@@ -16,6 +17,7 @@ const schema = new Schema({
       getAllPersons,
       getPersonByKey,
       getPersonsByPassword,
+      settings,
     },
   }),
 });

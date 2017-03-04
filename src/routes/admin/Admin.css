@@ -11,3 +11,18 @@
   max-width: var(--max-content-width);
 }
 
+.formGroup {
+  position: relative;
+  margin-bottom: 15px;
+}
+
+.label {
+  display: inline-block;
+  margin-bottom: 5px;
+  max-width: 100%;
+  font-weight: 700;
+}
+
+.input {
+  margin-left: 10px;
+}

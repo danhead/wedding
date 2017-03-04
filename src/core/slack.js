@@ -1,6 +1,7 @@
 import Slack from 'slack-node';
 import { slackWebhook } from '../config';
 import { handleError } from '../core/rollbar';
+import Settings from '../data/models/Settings';
 
 const slack = new Slack();
 slack.setWebhook(slackWebhook);
@@ -9,14 +10,20 @@ slack.setWebhook(slackWebhook);
 const slackTimers = {};
 
 export const sendSlackMsg = function sendSlackMsg(text, channel) {
-  slack.webhook({
-    channel,
-    username: 'weddingbot',
-    text,
-  }, err => {
-    if (err) {
-      handleError(err);
+  Settings.findAll().then(data => {
+    if (data[0].slack) {
+      slack.webhook({
+        channel,
+        username: 'weddingbot',
+        text,
+      }, err => {
+        if (err) {
+          handleError(err);
+        }
+      });
     }
+  }).catch(err => {
+    handleError(err);
   });
 };
 
