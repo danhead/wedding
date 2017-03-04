@@ -1,0 +1,21 @@
+.root {
+  height: 360px;
+  width: 100%;
+  max-width: 480px;
+  overflow: hidden;
+  text-shadow: none;
+}
+
+.map {
+  height: 360px;
+  width: 100%;
+  max-width: 480px;
+}
+
+.info {
+  color: #000;
+}
+
+.infoTitle {
+  margin: 2px 0 10px;
+}

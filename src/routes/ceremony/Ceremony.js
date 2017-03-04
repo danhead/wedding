@@ -3,13 +3,14 @@ import withStyles from 'isomorphic-style-loader/lib/withStyles';
 import s from './Ceremony.css';
 import Map from '../../components/Map';
 
-const markers = [
-  {
-    title: 'All Saints\' Church',
+const church = {
+  title: 'All Saints\' Church',
+  position: {
     lat: 51.7109,
     lng: -0.4479,
   },
-];
+  showInfo: true,
+};
 
 class Ceremony extends React.Component {
   render() {
@@ -31,9 +32,8 @@ class Ceremony extends React.Component {
               Parking is available across the road at the Rose and Crown pub.</p>
             <Map
               defaultZoom={14}
-              lat={markers[0].lat}
-              lng={markers[0].lng}
-              markers={markers}
+              defaultCenter={church.position}
+              markers={[church]}
             />
             <h3>About the church</h3>
             <p>All Saints Church is a medieval church with parts dating from the 13th century.

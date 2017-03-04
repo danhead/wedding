@@ -3,34 +3,45 @@ import withStyles from 'isomorphic-style-loader/lib/withStyles';
 import s from './Transport.css';
 import Map from '../../components/Map';
 
-const offley = [
-  {
-    title: 'Offley Place',
-    url: 'http://www.offleyplace.com/',
+const offley = {
+  title: 'Offley Place',
+  url: 'http://www.offleyplace.com/',
+  position: {
     lat: 51.9282,
     lng: -0.3332,
   },
-];
+  showInfo: true,
+};
 
 const stations = [
   {
     title: 'Hitchin',
-    lat: 51.9532,
-    lng: -0.2655,
+    position: {
+      lat: 51.9532,
+      lng: -0.2655,
+    },
   },
   {
     title: 'Luton',
-    lat: 51.8820,
-    lng: -0.4171,
+    position: {
+      lat: 51.8820,
+      lng: -0.4171,
+    },
   },
   {
     title: 'Luton Airport Parkway',
-    lat: 51.8724,
-    lng: -0.3984,
+    position: {
+      lat: 51.8724,
+      lng: -0.3984,
+    },
   },
 ];
 
 class Transport extends React.Component {
+  constructor(props) {
+    super(props);
+    this.markers = [offley].concat(stations);
+  }
   render() {
     return (
       <div className={s.root}>
@@ -45,9 +56,8 @@ class Transport extends React.Component {
               All trains terminate at London St Pancras or London Kings Cross</p>
             <Map
               defaultZoom={11}
-              lat={offley[0].lat}
-              lng={offley[0].lng}
-              markers={stations}
+              defaultCenter={offley.position}
+              markers={this.markers}
             />
             <h3>Car</h3>
             <p>Offley Place has secure parking facilities.</p>

@@ -3,14 +3,15 @@ import withStyles from 'isomorphic-style-loader/lib/withStyles';
 import s from './Reception.css';
 import Map from '../../components/Map';
 
-const offley = [
-  {
-    title: 'Offley Place',
-    url: 'http://www.offleyplace.com/',
+const offley = {
+  title: 'Offley Place',
+  url: 'http://www.offleyplace.com/',
+  position: {
     lat: 51.9282,
     lng: -0.3332,
   },
-];
+  showInfo: true,
+};
 
 class Reception extends React.Component {
   render() {
@@ -35,9 +36,8 @@ class Reception extends React.Component {
             <p>The venue is approximately a 30 minute drive from the Church.</p>
             <Map
               defaultZoom={12}
-              lat={offley[0].lat}
-              lng={offley[0].lng}
-              markers={offley}
+              defaultCenter={offley.position}
+              markers={[offley]}
             />
           </div>
         </div>
