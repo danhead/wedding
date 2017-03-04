@@ -23,7 +23,16 @@ export default {
     const settingsResp = await fetchQL('{settings{slack,email}}');
     const { data } = await resp.json();
     const config = await configResp.json();
-    const settings = await settingsResp.json();
+    let settings = await settingsResp.json();
+    if (settings && settings.data && settings.data.settings && settings.data.settings[0]) {
+      settings = settings.data.settings[0];
+    } else {
+      settings = {
+        slack: false,
+        email: false,
+      };
+    }
+
     const people = data.getAllPersons || [];
 
     const food = {
@@ -50,7 +59,7 @@ export default {
         starters={food.starters}
         mains={food.mains}
         build={config.build}
-        settings={settings.data.settings[0]}
+        settings={settings}
       /></Layout>,
     };
   },
