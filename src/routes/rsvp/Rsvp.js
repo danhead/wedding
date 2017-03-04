@@ -50,7 +50,8 @@ class Rsvp extends React.Component {
             ))}
           </div>
           <div className={s.notes}>
-            <p>You can modify the above details up until {this.props.rsvpEnd}</p>
+            <p>Changes are automatically saved.
+              You can modify the above details up until {this.props.rsvpEnd}</p>
           </div>
         </div>
       </div>
