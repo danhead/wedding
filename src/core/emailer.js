@@ -1,6 +1,6 @@
 import Nodemailer from 'nodemailer';
 import { email, starters, mains, getRsvpEnd } from '../config';
-import { handleError } from '../core/rollbar';
+import Rollbar from './rollbar';
 import Settings from '../data/models/Settings';
 
 const transporter = Nodemailer.createTransport({
@@ -49,12 +49,12 @@ export const sendRSVPEmail = function sendRSVPEmail(person) {
       // send mail with defined transport object
       transporter.sendMail(mailOptions, (error) => {
         if (error) {
-          handleError(error);
+          Rollbar.handleError(error);
         }
       });
     }
   }).catch(err => {
-    handleError(err);
+    Rollbar.handleError(err);
   });
 };
 
@@ -64,6 +64,6 @@ export const sendRSVPEmailWithDebounce = function sendRSVPEmailWithDebounce(pers
     clearTimeout(emailTimers[person.key]);
     emailTimers[person.key] = setTimeout(() => {
       sendRSVPEmail(person);
-    }, 60000);
+    }, email.debounce);
   }
 };

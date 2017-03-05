@@ -1,10 +1,10 @@
 import Slack from 'slack-node';
-import { slackWebhook } from '../config';
-import { handleError } from '../core/rollbar';
+import { slack as slackCfg } from '../config';
+import Rollbar from './rollbar';
 import Settings from '../data/models/Settings';
 
 const slack = new Slack();
-slack.setWebhook(slackWebhook);
+slack.setWebhook(slackCfg.webhook);
 
 // Debounce sending the slack message to avoid spamming
 const slackTimers = {};
@@ -18,12 +18,12 @@ export const sendSlackMsg = function sendSlackMsg(text, channel) {
         text,
       }, err => {
         if (err) {
-          handleError(err);
+          Rollbar.handleError(err);
         }
       });
     }
   }).catch(err => {
-    handleError(err);
+    Rollbar.handleError(err);
   });
 };
 
@@ -33,6 +33,6 @@ export const sendSlackMsgWithDebounce = function sendSlackMsgWithDebounce(text, 
     clearTimeout(slackTimers[key]);
     slackTimers[key] = setTimeout(() => {
       sendSlackMsg(text, channel);
-    }, 60000);
+    }, slackCfg.debounce);
   }
 };
