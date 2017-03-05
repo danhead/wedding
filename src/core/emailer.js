@@ -38,7 +38,7 @@ ${person.attending && person.dietary.length > 0 ? `<p>Your dietary requirements 
 
 export const sendRSVPEmail = function sendRSVPEmail(person) {
   Settings.findAll().then(data => {
-    if (data[0].email) {
+    if (data[0].email && person.email) {
       const mailOptions = {
         from: `"${email.senderName}" <${email.senderAddress}>`,
         to: person.email,
