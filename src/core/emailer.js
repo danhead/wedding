@@ -18,7 +18,7 @@ function getEmailText(person) {
   return `Dear ${person.firstname}.\n\n
 Thanks for your RSVP, ${person.attending ? 'we\'re delighted to hear you will be attending' : 'we\'re sorry to hear you will not be attending'}.\n
 ${person.attending ? `Your meal choices are ${starters[person.starter]} and ${mains[person.main]}.\n` : ''}
-${person.attending && person.dietary.length > 0 ? `Your dietary requirements are: ${person.dietary}.\n` : ''}
+${person.attending && person.dietary && person.dietary.trim().length > 0 ? `Your dietary requirements are: ${person.dietary}.\n` : ''}
 You can modify your RSVP up until ${getRsvpEnd()} here: https://danielandhana.com/${person.password}.\n
 ${person.attending ? 'See you at our wedding,' : 'Hope to see you soon,'}\n
 Daniel and Hana
@@ -29,7 +29,7 @@ function getEmailHTML(person) {
   return `<p>Dear ${person.firstname}.</p>
 <p>Thanks for your RSVP, ${person.attending ? 'we\'re delighted to hear you will be attending' : 'we\'re sorry to hear you will not be attending'}.</p>
 ${person.attending ? `<p>Your meal choices are <b>${starters[person.starter]}</b> and <b>${mains[person.main]}</b>.</p>` : ''}
-${person.attending && person.dietary.length > 0 ? `<p>Your dietary requirements are: <b>${person.dietary}</b>.</p>` : ''}
+${person.attending && person.dietary && person.dietary.trim().length > 0 ? `<p>Your dietary requirements are: <b>${person.dietary}</b>.</p>` : ''}
 <p>You can modify your RSVP up until <b>${getRsvpEnd()}</b> <a href="https://danielandhana.com/${person.password}">here</a>.</p>
 <p>${person.attending ? 'See you at our wedding,' : 'Hope to see you soon,'}</p>
 <p>Daniel and Hana</p>

@@ -21,7 +21,7 @@ import models from './data/models';
 import schema from './data/schema';
 import routes from './routes';
 import assets from './assets'; // eslint-disable-line import/no-unresolved
-import { port, auth, starters, mains, rsvpEndDate } from './config';
+import { port, auth, starters, mains, rsvpEndDate, exportApiKey } from './config';
 import Person from './data/models/Person';
 import Settings from './data/models/Settings';
 import Rollbar from './core/rollbar';
@@ -222,7 +222,10 @@ app.get('/login', (req, res, next) => {
 
 app.use('/admin*', (req, res, next) => {
   try {
-    if (!req.user || !admin(req.user.email)) {
+    // Allow if api key is valid and path is /admin/people/export
+    if (req.headers['x-api-key'] === exportApiKey && req.originalUrl === '/admin/people/export') {
+      next();
+    } else if (!req.user || !admin(req.user.email)) {
       res.redirect(401, '/login');
     } else {
       next();
