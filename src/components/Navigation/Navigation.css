@@ -4,8 +4,14 @@
   right: 0;
   left: 0;
   height: 40px;
-  background: rgba(0, 0, 0, 0.1);
   overflow: hidden;
+  z-index: 100;
+  background: rgba(0, 0, 0, 0.1);
+  transition: background 0.3s, ease-in;
+}
+
+.navDark {
+  background: rgba(60, 60, 60, 0.95);
 }
 
 .container {

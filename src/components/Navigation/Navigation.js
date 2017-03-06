@@ -8,12 +8,40 @@ class Navigation extends React.Component {
     current: PropTypes.string,
   };
 
+  constructor(props) {
+    super(props);
+    this.state = {
+      scrollAtTop: true,
+    };
+  }
+
+  componentDidMount() {
+    window.addEventListener('scroll', this.handleScroll);
+  }
+
+  componentWillUnmount() {
+    window.removeEventListener('scroll', this.handleScroll);
+  }
+
+  handleScroll = (event) => {
+    const scrollTop = event.srcElement.body.scrollTop;
+    this.setState({
+      scrollAtTop: scrollTop < 10,
+    });
+  };
+
   render() {
     if (!this.props.current) {
       return null;
     }
     return (
-      <div className={s.root} role="navigation">
+      <div
+        className={[
+          s.root,
+          this.state.scrollAtTop ? null : s.navDark,
+        ].join(' ')}
+        role="navigation"
+      >
         <div className={s.container}>
           <Link className={[s.link, this.props.current === 'home' ? s.active : null].join(' ')} to="/">RSVP</Link>
           <Link className={[s.link, this.props.current === 'ceremony' ? s.active : null].join(' ')} to="/church">Church</Link>

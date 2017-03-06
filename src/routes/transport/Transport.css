@@ -12,6 +12,7 @@
   background: url('/img/offley_2560.jpg');
   background-size: cover;
   background-position-x: 54%;
+  background-position-y: 66%;
   background-color: #c1c1c1;
   filter: grayscale(1) brightness(0.4);
   z-index: -1;

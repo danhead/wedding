@@ -13,6 +13,10 @@ html {
   line-height: 1.375; /* ~22px */
 }
 
+body {
+  overflow-x: hidden;
+}
+
 a {
   color: #0074c2;
 }

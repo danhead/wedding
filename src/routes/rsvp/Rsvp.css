@@ -12,6 +12,7 @@
   background: url('/img/cervenalhota_2560.jpg');
   background-size: cover;
   background-position-x: 30%;
+  background-position-y: 66%;
   background-color: #c1c1c1;
   filter: grayscale(1) brightness(0.6);
   z-index: -1;
