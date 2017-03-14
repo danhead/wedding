@@ -48,3 +48,28 @@
   color: #fff;
   text-shadow: 1px 1px 4px var(--colour-nearblack);
 }
+
+.button {
+  display: inline-block;
+  box-sizing: border-box;
+  margin: 0;
+  padding: 10px 20px;
+  opacity: 0.75;
+  outline: 0;
+  border: 4px solid #fff;
+  border-radius: 14px;
+  background: var(--colour-nearblack);
+  color: #fff;
+  text-align: center;
+  text-decoration: none;
+  font-size: 18px;
+  line-height: 1.3333333;
+  cursor: pointer;
+  transition: opacity ease-in-out 0.25s, box-shadow ease-in-out 0.25s;
+}
+
+.button:hover,
+.button:focus {
+  opacity: 0.9;
+  box-shadow: 0 0 4px #fff;
+}

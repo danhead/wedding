@@ -18,10 +18,22 @@ class Giftlist extends React.Component {
               is the most amazing honeymoon possible. We have the basics covered but
               we&#8217;re hoping for the holiday of a lifetime. We would like to see
               and do everything we&#8217;ve dreamed about!</p>
-            <p>Right now we&#8217;re busy curating our list, but fret not, we
-              won&#8217;t take long! Please do check back here in the coming days,
-              we&#8217;ll have a link on this page.</p>
+            <p>Here&#8217;s how our gift list works. Just pick the item you&#8217;d
+              most like to give us. You&#8217;ll then be asked to leave your name
+              and any message you have for us. There is the option to use the PayPal
+              system to send your gift (you can use a credit card &ndash; you
+              don&#8217;t need a PayPal account). Or, on the day, you could bring
+              the value of your gift in a card.</p>
+            <p>We&#8217;ll send you a link to our online photo gallery when we get
+              back and we&#8217;ll be sure to tell (bore) you all about it in great
+              detail.</p>
             <p className={s.sig}>Dan and Hana</p>
+            <a
+              className={s.button}
+              href="https://www.our-wedding-list.co.uk/danielandhana/list"
+            >
+              View our list
+            </a>
           </div>
         </div>
       </div>
