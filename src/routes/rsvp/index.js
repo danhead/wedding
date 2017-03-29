@@ -6,13 +6,13 @@ import NotFound from '../notFound/NotFound';
 import { rsvpEndDate, getRsvpEnd } from '../../config';
 
 let title = 'RSVP';
-
+let attending = 'day';
 export default {
 
   path: '/rsvp/:password',
 
   isEditable() {
-    return new Date() < rsvpEndDate;
+    return new Date() < rsvpEndDate[attending];
   },
 
   async action({ params }) {
@@ -35,6 +35,9 @@ export default {
       };
     }
 
+    // Assuming all connected guests have the same invite
+    attending = people[0].ceremony ? 'day' : 'evening';
+
     return {
       title,
       component: (
@@ -42,7 +45,7 @@ export default {
           <Rsvp
             title={title}
             people={people}
-            rsvpEnd={getRsvpEnd()}
+            rsvpEnd={getRsvpEnd(attending)}
             isEditable={this.isEditable()}
           />
         </Layout>

@@ -149,41 +149,34 @@ app.get('/rsvp/:code', bouncer.block, (req, res, next) => {
 
 app.post('/rsvp/save', (req, res) => {
   try {
-    if (new Date() > rsvpEndDate) {
-      res.json({
-        success: false,
-        err: 'RSVP end date has elapsed',
-      });
-    } else {
-      const update = {};
-      update[req.body.prop] = req.body.value;
-      Person.update(update, {
-        where: {
-          key: req.body.key,
-        },
-      }).then(() => {
-        Person.findOne({
-          where: { key: req.body.key },
-        }).then(data => {
-          if (data.completed) {
-            const attending = `\nAttending: ${data.attending ? 'Yes' : 'No'}`;
-            const starter = (data.attending && data.starter !== -1) ? `\nStarter: ${starters[data.starter]}` : '';
-            const main = (data.attending && data.main !== -1) ? `\nMain: ${mains[data.main]}` : '';
-            const dietary = (data.attending && data.dietary) ? `\nDietary requirements: ${data.dietary}` : '';
-
-            sendSlackMsgWithDebounce(`${data.firstname} ${data.lastname} has saved their RSVP:${attending}${starter}${main}${dietary}`, '#wedding-rsvps', req.body.key);
-            sendRSVPEmailWithDebounce(data);
-          }
-          res.json({
-            success: true,
-            prop: req.body.prop,
-          });
-        }).catch(err => {
-          Rollbar.handleError(err);
-          res.json({
+    const update = {};
+    update[req.body.prop] = req.body.value;
+    Person.update(update, {
+      where: {
+        key: req.body.key,
+      },
+    }).then(() => {
+      Person.findOne({
+        where: { key: req.body.key },
+      }).then(data => {
+        const endDate = rsvpEndDate[(data.ceremony ? 'day' : 'evening')];
+        if (new Date() > endDate) {
+          return res.json({
             success: false,
-            err,
+            err: 'RSVP end date has elapsed',
           });
+        } else if (data.completed) {
+          const attending = `\nAttending: ${data.attending ? 'Yes' : 'No'}`;
+          const starter = (data.attending && data.starter !== -1) ? `\nStarter: ${starters[data.starter]}` : '';
+          const main = (data.attending && data.main !== -1) ? `\nMain: ${mains[data.main]}` : '';
+          const dietary = (data.attending && data.dietary) ? `\nDietary requirements: ${data.dietary}` : '';
+
+          sendSlackMsgWithDebounce(`${data.firstname} ${data.lastname} has saved their RSVP:${attending}${starter}${main}${dietary}`, '#wedding-rsvps', req.body.key);
+          sendRSVPEmailWithDebounce(data);
+        }
+        return res.json({
+          success: true,
+          prop: req.body.prop,
         });
       }).catch(err => {
         Rollbar.handleError(err);
@@ -192,7 +185,13 @@ app.post('/rsvp/save', (req, res) => {
           err,
         });
       });
-    }
+    }).catch(err => {
+      Rollbar.handleError(err);
+      res.json({
+        success: false,
+        err,
+      });
+    });
   } catch (err) {
     Rollbar.handleError(err);
     res.json({
