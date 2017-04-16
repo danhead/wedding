@@ -21,7 +21,7 @@ import models from './data/models';
 import schema from './data/schema';
 import routes from './routes';
 import assets from './assets'; // eslint-disable-line import/no-unresolved
-import { port, auth, starters, mains, rsvpEndDate, exportApiKey } from './config';
+import { port, auth, starters, mains, exportApiKey } from './config';
 import Person from './data/models/Person';
 import Settings from './data/models/Settings';
 import Rollbar from './core/rollbar';
@@ -149,41 +149,41 @@ app.get('/rsvp/:code', bouncer.block, (req, res, next) => {
 
 app.post('/rsvp/save', (req, res) => {
   try {
-    const update = {};
-    update[req.body.prop] = req.body.value;
-    Person.update(update, {
-      where: {
-        key: req.body.key,
-      },
-    }).then(() => {
-      Person.findOne({
-        where: { key: req.body.key },
-      }).then(data => {
-        const endDate = rsvpEndDate[(data.ceremony ? 'day' : 'evening')];
-        if (new Date() > endDate) {
+    Person.findOne({
+      where: { key: req.body.key },
+    }).then(data => {
+      const endDate = new Date(data.enddate);
+      if (new Date() < endDate) {
+        const update = {};
+        update[req.body.prop] = req.body.value;
+        return Person.update(update, {
+          where: {
+            key: req.body.key,
+          },
+        }).then(() => {
+          if (data.completed) {
+            const attending = `\nAttending: ${data.attending ? 'Yes' : 'No'}`;
+            const starter = (data.attending && data.starter !== -1) ? `\nStarter: ${starters[data.starter]}` : '';
+            const main = (data.attending && data.main !== -1) ? `\nMain: ${mains[data.main]}` : '';
+            const dietary = (data.attending && data.dietary) ? `\nDietary requirements: ${data.dietary}` : '';
+            sendSlackMsgWithDebounce(`${data.firstname} ${data.lastname} has saved their RSVP:${attending}${starter}${main}${dietary}`, '#wedding-rsvps', req.body.key);
+            sendRSVPEmailWithDebounce(data);
+          }
           return res.json({
-            success: false,
-            err: 'RSVP end date has elapsed',
+            success: true,
+            prop: req.body.prop,
           });
-        } else if (data.completed) {
-          const attending = `\nAttending: ${data.attending ? 'Yes' : 'No'}`;
-          const starter = (data.attending && data.starter !== -1) ? `\nStarter: ${starters[data.starter]}` : '';
-          const main = (data.attending && data.main !== -1) ? `\nMain: ${mains[data.main]}` : '';
-          const dietary = (data.attending && data.dietary) ? `\nDietary requirements: ${data.dietary}` : '';
-
-          sendSlackMsgWithDebounce(`${data.firstname} ${data.lastname} has saved their RSVP:${attending}${starter}${main}${dietary}`, '#wedding-rsvps', req.body.key);
-          sendRSVPEmailWithDebounce(data);
-        }
-        return res.json({
-          success: true,
-          prop: req.body.prop,
+        }).catch(err => {
+          Rollbar.handleError(err);
+          res.json({
+            success: false,
+            err,
+          });
         });
-      }).catch(err => {
-        Rollbar.handleError(err);
-        res.json({
-          success: false,
-          err,
-        });
+      }
+      return res.json({
+        success: false,
+        err: 'RSVP end date has elapsed',
       });
     }).catch(err => {
       Rollbar.handleError(err);
@@ -242,6 +242,7 @@ app.post('/admin/person', (req, res, next) => {
       lastname: req.body.lastname,
       email: req.body.email,
       ceremony: req.body.ceremony,
+      enddate: new Date(req.body.enddate),
     };
 
     if (req.body.password && req.body.password !== '') {

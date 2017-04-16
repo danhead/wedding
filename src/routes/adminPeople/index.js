@@ -9,7 +9,7 @@ export default {
   path: '/admin/people',
 
   async action() {
-    const resp = await fetchQL('{getAllPersons{key,firstname,lastname,email,ceremony,completed,password}}');
+    const resp = await fetchQL('{getAllPersons{key,firstname,lastname,email,ceremony,completed,password,enddate}}');
 
     let people = await resp.json();
     if (people.data && people.data.getAllPersons) {

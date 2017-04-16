@@ -3,6 +3,7 @@ import withStyles from 'isomorphic-style-loader/lib/withStyles';
 import s from './AdminPeople.css';
 import Link from '../../components/Link';
 import Button from '../../components/Button';
+import { prettifyDate } from '../../config';
 
 class AdminPeople extends React.Component {
   static propTypes = {
@@ -16,6 +17,7 @@ class AdminPeople extends React.Component {
       email: PropTypes.string,
       password: PropTypes.string,
       attending: PropTypes.boolean,
+      enddate: PropTypes.string,
     })).isRequired,
   };
 
@@ -142,6 +144,22 @@ class AdminPeople extends React.Component {
                   <span
                     className={[
                       s.sortIcon,
+                      this.state.sortedBy === 'enddate' && this.state.sortDirection ? s.showSortIcon : null,
+                    ].join(' ')}
+                  >⬇</span>
+                  <span
+                    className={[
+                      s.sortIcon,
+                      this.state.sortedBy === 'enddate' && !this.state.sortDirection ? s.showSortIcon : null,
+                    ].join(' ')}
+                  >⬆</span>
+                  <a href="#sortcolumn" onClick={event => this.sortPeople(event, 'enddate')}>End date</a>
+                </td>
+
+                <td>
+                  <span
+                    className={[
+                      s.sortIcon,
                       this.state.sortedBy === 'completed' && this.state.sortDirection ? s.showSortIcon : null,
                     ].join(' ')}
                   >⬇</span>
@@ -163,6 +181,7 @@ class AdminPeople extends React.Component {
                   <td>{person.email}</td>
                   <td><Link to={`/rsvp/${person.password}`}>{person.password}</Link></td>
                   <td>{person.ceremony ? 'Full day' : 'Evening only'}</td>
+                  <td>{prettifyDate(person.enddate)}</td>
                   <td>{person.completed ? 'Yes' : 'No'}</td>
                   <td>
                     <Button to={`/admin/person/${person.key}`}>Edit</Button>
@@ -238,6 +257,17 @@ class AdminPeople extends React.Component {
                 <option value="true">Full day</option>
                 <option value="false">Evening only</option>
               </select>
+            </div>
+            <div className={s.formGroup}>
+              <label className={s.label} htmlFor="enddate">
+                End date:
+              </label>
+              <input
+                className={s.input}
+                type="date"
+                id="enddate"
+                name="enddate"
+              />
             </div>
             <div className={s.formGroup}>
               <label className={s.label} htmlFor="password">

@@ -11,7 +11,7 @@ export default {
       return { redirect: '/admin' };
     }
 
-    const resp = await fetchQL('{getPersonByKey{key,firstname,lastname,email,completed,password,ceremony,starter,main,dietary}}', {
+    const resp = await fetchQL('{getPersonByKey{key,firstname,lastname,email,completed,password,ceremony,starter,main,dietary,enddate}}', {
       key: params.key,
     });
 

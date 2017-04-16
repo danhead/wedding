@@ -20,6 +20,7 @@ const PersonItemType = new ObjectType({
     dietary: { type: StringType },
     starter: { type: StringType },
     main: { type: StringType },
+    enddate: { type: StringType },
   },
 });
 

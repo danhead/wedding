@@ -14,6 +14,7 @@ class Rsvp extends React.Component {
       dietary: PropTypes.string,
       starter: PropTypes.string,
       main: PropTypes.string,
+      enddate: PropTypes.string,
     })).isRequired,
     rsvpEnd: PropTypes.string.isRequired,
     isEditable: PropTypes.bool.isRequired,

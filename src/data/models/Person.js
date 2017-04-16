@@ -66,6 +66,10 @@ const Person = Model.define('Person', {
     defaultValue: -1,
   },
 
+  enddate: {
+    type: DataType.DATE,
+  },
+
 }, {
 
   indexes: [

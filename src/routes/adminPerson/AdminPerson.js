@@ -15,6 +15,7 @@ class AdminPerson extends React.Component {
       password: PropTypes.string,
       attending: PropTypes.boolean,
       ceremony: PropTypes.boolean,
+      enddate: PropTypes.string,
     }).isRequired,
   };
 
@@ -22,6 +23,14 @@ class AdminPerson extends React.Component {
     firstname: this.props.person.firstname,
     lastname: this.props.person.lastname,
   };
+
+  getISODate = (date) => {
+    const d = new Date(date);
+    const year = d.getFullYear();
+    const month = d.getMonth() + 1 < 10 ? `0${d.getMonth() + 1}` : d.getMonth() + 1;
+    const day = d.getDate() < 10 ? `0${d.getDate()}` : d.getDate();
+    return `${year}-${month}-${day}`;
+  }
 
   handleFirstnameChange = (event) => {
     this.setState({ firstname: event.target.value });
@@ -93,6 +102,18 @@ class AdminPerson extends React.Component {
                 <option value="true">Full day</option>
                 <option value="false">Evening only</option>
               </select>
+            </div>
+            <div className={s.formGroup}>
+              <label className={s.label} htmlFor="enddate">
+                End date:
+              </label>
+              <input
+                className={s.input}
+                type="date"
+                id="enddate"
+                name="enddate"
+                defaultValue={this.getISODate(this.props.person.enddate)}
+              />
             </div>
             <div className={s.formGroup}>
               <label className={s.label} htmlFor="password">

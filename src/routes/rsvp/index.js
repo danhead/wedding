@@ -3,16 +3,15 @@ import Layout from '../../components/Layout';
 import fetchQL from '../../core/fetchQL';
 import Rsvp from './Rsvp';
 import NotFound from '../notFound/NotFound';
-import { rsvpEndDate, getRsvpEnd } from '../../config';
+import { prettifyDate } from '../../config';
 
 let title = 'RSVP';
-let attending = 'day';
 export default {
 
   path: '/rsvp/:password',
 
-  isEditable() {
-    return new Date() < rsvpEndDate[attending];
+  isEditable(date) {
+    return new Date() < new Date(date);
   },
 
   async action({ params }) {
@@ -20,7 +19,7 @@ export default {
       return { redirect: '/' };
     }
 
-    const resp = await fetchQL('{getPersonsByPassword{key,firstname,lastname,attending,ceremony,dietary,starter,main}}', {
+    const resp = await fetchQL('{getPersonsByPassword{key,firstname,lastname,attending,ceremony,dietary,starter,main,enddate}}', {
       password: params.password,
     });
 
@@ -36,7 +35,7 @@ export default {
     }
 
     // Assuming all connected guests have the same invite
-    attending = people[0].ceremony ? 'day' : 'evening';
+    const firstDate = people[0].enddate;
 
     return {
       title,
@@ -45,8 +44,8 @@ export default {
           <Rsvp
             title={title}
             people={people}
-            rsvpEnd={getRsvpEnd(attending)}
-            isEditable={this.isEditable()}
+            rsvpEnd={prettifyDate(firstDate)}
+            isEditable={this.isEditable(firstDate)}
           />
         </Layout>
       ),
