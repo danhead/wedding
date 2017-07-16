@@ -12,7 +12,21 @@ const church = {
   showInfo: true,
 };
 
+const carPark = {
+  title: 'Langley Hill Car Park',
+  position: {
+    lat: 51.7121,
+    lng: -0.4507,
+  },
+  showInfo: true,
+};
+
 class Ceremony extends React.Component {
+  constructor(props) {
+    super(props);
+    this.markers = [church, carPark];
+  }
+
   render() {
     return (
       <div className={s.root}>
@@ -29,11 +43,11 @@ class Ceremony extends React.Component {
             <p>The ceremony begins at 1pm</p>
             <h3>Where</h3>
             <p>The church is located at the southern end of Kings Langley high street.
-              Parking is available across the road at the Rose and Crown pub.</p>
+              Free parking is available on Langley Hill.</p>
             <Map
-              defaultZoom={14}
+              defaultZoom={15}
               defaultCenter={church.position}
-              markers={[church]}
+              markers={this.markers}
             />
             <h3>About the church</h3>
             <p>All Saints Church is a medieval church with parts dating from the 13th century.
