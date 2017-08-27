@@ -13,7 +13,6 @@ export default {
     require('./reception').default,
     require('./accomodation').default,
     require('./transport').default,
-    require('./giftlist').default,
     require('./login').default,
     require('./admin').default,
     require('./adminPeople').default,

@@ -48,7 +48,6 @@ class Navigation extends React.Component {
           <Link className={[s.link, this.props.current === 'reception' ? s.active : null].join(' ')} to="/venue">Venue</Link>
           <Link className={[s.link, this.props.current === 'accomodation' ? s.active : null].join(' ')} to="/hotels">Hotels</Link>
           <Link className={[s.link, this.props.current === 'transport' ? s.active : null].join(' ')} to="/transport">Transport</Link>
-          <Link className={[s.link, this.props.current === 'giftlist' ? s.active : null].join(' ')} to="/giftlist">Gift list</Link>
         </div>
       </div>
     );
