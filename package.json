@@ -1,0 +1,31 @@
+{
+  "name": "wedding",
+  "version": "2.0.0-SNAPSHOT",
+  "private": true,
+  "proxy": "http://localhost:3001",
+  "dependencies": {
+    "axios": "^0.16.2",
+    "body-parser": "^1.18.1",
+    "express": "^4.15.4",
+    "firebase": "^4.3.1",
+    "firebase-admin": "^5.2.1",
+    "oauth": "^0.9.15",
+    "re-base": "^3.0.3",
+    "react": "^15.6.1",
+    "react-dom": "^15.6.1",
+    "react-router-dom": "^4.2.2",
+    "react-scripts": "1.0.13",
+    "styled-components": "^2.1.2"
+  },
+  "scripts": {
+    "start": "concurrently \"react-scripts start\" \"nodemon --watch server server\"",
+    "build": "react-scripts build",
+    "test": "react-scripts test --env=jsdom",
+    "eject": "react-scripts eject",
+    "serve": "node ./server"
+  },
+  "devDependencies": {
+    "concurrently": "^3.5.0",
+    "nodemon": "^1.12.0"
+  }
+}
