@@ -4,16 +4,26 @@ const router = express.Router();
 
 const route = function(db) {
   router.post('/', function(req, res, next) {
-    const passcode = req.body.passcode;
+    const password = req.body.password;
+    const passwordRef = db.ref('server/password');
+    passwordRef.once('value', function(s) {
+      res.json({
+        valid: password === s.val(),
+      });
+    });
+  });
+
+  router.post('/uid', function(req, res, next) {
+    const password = req.body.password;
     const uid = req.body.uid;
-    const passcodeRef = db.ref('server/passcode');
-    passcodeRef.once('value', function(s) {
+    const passwordRef = db.ref('server/password');
+    passwordRef.once('value', function(s) {
       if (!uid) {
         return res.status(400).json({
           error: 'No UID',
         });
       }
-      const valid = passcode === s.val();
+      const valid = password === s.val();
       const userRef = db.ref(`users/${uid}`)
         .set({
           isAdmin: false,

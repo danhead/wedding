@@ -1,11 +1,9 @@
 import React, { Component } from 'react';
-import { BrowserRouter, Switch, Route } from 'react-router-dom';
+import { BrowserRouter } from 'react-router-dom';
 
-import Navigation from './components/Navigation';
-import Home from './routes/Home';
-import Login from './routes/Login';
+import Menu from './components/Menu';
+import Login from './components/Login';
 import Admin from './routes/Admin';
-import NotFound from './routes/NotFound';
 
 import { auth, db } from './rebase';
 
@@ -28,20 +26,21 @@ class App extends Component {
   }
 
   componentWillMount() {
-    this.registerAuthStateChange('main', (user) => {
-      console.log('mainevent', user);
-      if (user) {
-        this.setState({
-          user: {
-            uid: user.uid,
-            displayName: user.displayName,
-            photoURL: user.photoURL,
-          },
-        });
-        this.userStateBinding = db.bindToState(`users/${user.uid}`, {
-          context: this,
-          state: 'user.data',
-        });
+    // Set up auth state observer
+    auth.onAuthStateChanged((res) => {
+      if (res) {
+        const user = {...this.state.user};
+        user.uid = res.uid;
+        user.displayName = res.displayName;
+        user.photoURL = res.photoURL;
+        user.data = {};
+        this.setState({ user });
+        if (!this.userStateBinding) {
+          this.userStateBinding = db.bindToState(`users/${user.uid}`, {
+            context: this,
+            state: 'user.data',
+          });
+        }
       } else if (this.userStateBinding) {
         db.removeBinding(this.userStateBinding);
         this.setState({
@@ -49,38 +48,25 @@ class App extends Component {
         });
       }
     });
-
-    // Set up auth state observer
-    auth.onAuthStateChanged((user) => {
-      // loop through all registered auth state events
-      Object.values(this.authStateEvents).forEach((fn) => fn(user));
-    });
-  }
-
-  registerAuthStateChange = (key, fn) => {
-    this.authStateEvents[key] = fn;
   }
 
   render() {
     return (
-      <BrowserRouter>
-        <div>
-          <Navigation />
-          <Switch>
-            <Route exact path="/" render={() => <Home
-              user={this.state.user}
-              registerAuthStateChange={this.registerAuthStateChange}
-            />} />
-             <Route path="/login" render={() => <Login
-              user={this.state.user}
-            />} />
-            <Route path="/admin" render={() => <Admin
-              user={this.state.user}
-            />} />
-            <Route component={NotFound} />
-          </Switch>
-        </div>
-      </BrowserRouter>
+      <div>
+        <BrowserRouter>
+          <div>
+            {this.state.user.uid && this.state.user.data.approved
+              ? ''
+              : <Login user={this.state.user} />
+            }
+            {this.state.user.data.isAdmin
+              ? <Admin user={this.state.user} />
+              : ''
+            }
+          </div>
+        </BrowserRouter>
+        <Menu user={this.state.user} />
+      </div>
     );
   }
 }
