@@ -1,11 +1,12 @@
 import React, { Component } from 'react';
 import { BrowserRouter } from 'react-router-dom';
 
+import BackgroundImage from './components/BackgroundImage';
 import Menu from './components/Menu';
 import Login from './components/Login';
 import Admin from './routes/Admin';
 
-import { auth, db } from './rebase';
+import { auth, bucket, db } from './rebase';
 
 import './App.css';
 
@@ -20,6 +21,7 @@ class App extends Component {
   constructor(props) {
     super(props);
     this.state = {
+      bgImgUrl: null,
       user: {...emptyUser},
     }
     this.authStateEvents = {};
@@ -48,6 +50,11 @@ class App extends Component {
         });
       }
     });
+
+    // Get BG Image URL
+    bucket.ref('/public/images/IMG_1212.JPG').getDownloadURL().then(bgImgUrl => {
+      this.setState({ bgImgUrl });
+    });
   }
 
   render() {
@@ -65,7 +72,9 @@ class App extends Component {
             }
           </div>
         </BrowserRouter>
-        <Menu user={this.state.user} />
+        { this.state.user.uid
+          ? <Menu user={this.state.user} />
+          : <BackgroundImage url={this.state.bgImgUrl} /> }
       </div>
     );
   }

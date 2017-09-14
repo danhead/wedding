@@ -1,8 +1,9 @@
 import React from 'react';
-import { auth } from '../rebase';
 import firebase from 'firebase';
 import axios from 'axios';
 import styled from 'styled-components';
+import { auth } from '../rebase';
+import Colours from '../Colours';
 
 class Login extends React.Component {
   state = {
@@ -136,22 +137,36 @@ class Login extends React.Component {
       state = 'password';
     }
     return (
-      <LoginContainer>
-        { state === 'intro' ? this.renderIntro() : '' }
-        { state === 'password' ? this.renderPasswordInput() : '' }
-      </LoginContainer>
+      <div>
+        <LoginOverlay />
+        <LoginContainer>
+          { state === 'intro' ? this.renderIntro() : '' }
+          { state === 'password' ? this.renderPasswordInput() : '' }
+        </LoginContainer>
+      </div>
     )
   }
 }
 
+const LoginOverlay = styled.div`
+  position: fixed;
+  top: 0;
+  right: 0;
+  bottom: 0;
+  left: 0;
+  z-index:24;
+  background-color: ${Colours.white};
+  opacity: .6;
+`;
 const LoginContainer = styled.div`
   position: fixed;
   top: 50%;
   left: 50%;
   transform: translateX(-50%) translateY(-50%);
   padding: 5%;
-  border: 1px solid black;
   text-align: center;
+  z-index: 25;
+  background-color: ${Colours.white};
 `
 const Link = styled.a`
   text-decoration: none;
