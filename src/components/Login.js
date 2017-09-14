@@ -116,8 +116,8 @@ class Login extends React.Component {
         <Link href="" onClick={this.authAnonymously}>Sign in anonymously</Link>
         <p>or</p>
         <p>Sign in with:</p>
-        <button onClick={() => this.authWithProvider('facebook')}>Log in with Facebook</button>
-        <button onClick={() => this.authWithProvider('twitter')}>Log in with Twitter</button>
+        <Button onClick={() => this.authWithProvider('facebook')}>Facebook</Button>
+        <Button onClick={() => this.authWithProvider('twitter')}>Twitter</Button>
       </div>
     )
   }
@@ -175,7 +175,10 @@ const Input = styled.input`
   border: 1px solid black;
 `;
 const Button = styled.button`
-  border: 1px solid black;
+  background-color: lightblue;
+  padding: 15px;
+  border: 0;
+  color: ${Colours.nearblack}
 `
 
 export default Login;
