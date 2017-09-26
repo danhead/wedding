@@ -1,0 +1,102 @@
+<!DOCTYPE html>
+<html lang="en">
+<head>
+  <meta name="viewport" content="width=device-width,initial-scale=1,maximum-scale=1,user-scalable=false,shrink-to-fit=no">
+  <meta charset="UTF-8">
+  <title>Daniel and Hana - Thank you</title>
+  <style type="text/css">
+  body {
+    margin: 0;
+    padding: 0;
+    overflow: hidden;
+    font-family: sans;
+    font-size: 17px;
+  }
+  .heading {
+    position: fixed;
+    top: 0;
+    right: 0;
+    left: 0;
+    text-align: center;
+    z-index: 2;
+    color: #FEDEFD;
+    background-color: rgba(27, 35, 43, .6);
+    margin: 0;
+    padding: .75rem;
+    font-size: 1.4rem;
+  }
+  .subheading {
+    position: fixed;
+    right: 0;
+    bottom: 0;
+    left: 0;
+    text-align: center;
+    z-index: 2;
+    color: #FEDEFD;
+    background-color: rgba(27, 35, 43, .6);
+    margin: 0;
+    padding: .5rem;
+    font-size: .8rem;
+  }
+  .image {
+    position: fixed;
+    top: 0;
+    right: 0;
+    bottom: 0;
+    left: 0;
+    filter: blur(2px) brightness(.8);
+    background-size: cover;
+    background-position: center top;
+    background-repeat: no-repeat;
+    opacity: 0;
+  }
+  .image.isTransitioning {
+    transition: opacity 4s;
+  }
+  .image.isActive {
+    opacity: 1;
+  }
+  .image-one { background-image: url('images/one.jpg'); }
+  .image-two { background-image: url('images/two.jpg'); }
+  .image-three { background-image: url('images/three.jpg'); }
+  .image-four { background-image: url('images/four.jpg'); }
+  </style>
+</head>
+<body>
+  <h1 class="heading">Thank you to all who joined us to celebrate our special day.</h1>
+  <h2 class="subheading">Our full photo album is coming soon.</h2>
+  <div class="images">
+    <div class="image image-one"></div>
+    <div class="image image-two"></div>
+    <div class="image image-three"></div>
+    <div class="image image-four"></div>
+  </div>
+</body>
+<script type="text/javascript">
+var images = document.querySelectorAll('.image');
+var active = 0;
+var transitionImage = function(n, o) {
+  images[n].classList.add('isTransitioning');
+  images[n].classList.add('isActive');
+  if (typeof o === 'number') {
+    images[o].classList.add('isTransitioning');
+    images[o].classList.remove('isActive');
+  }
+  setTimeout(function() {
+    images[n].classList.remove('isTransitioning');
+    if (typeof o === 'number') {
+      images[o].classList.remove('isTransitioning');
+    }
+  }, 4000);
+}
+setTimeout(function() {
+  transitionImage(active);
+  setInterval(function() {
+    var newIndex = (active === images.length -1) ? 0 : active + 1;
+    console.log(newIndex, active);
+    transitionImage(newIndex, active);
+    active = newIndex;
+  }, 8000);
+}, 1000);
+</script>
+</html>

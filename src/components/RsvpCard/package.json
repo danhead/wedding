@@ -1,6 +1,0 @@
-{
-  "name": "RsvpCard",
-  "version": "1.0.0",
-  "private": true,
-  "main": "./RsvpCard.js"
-}
