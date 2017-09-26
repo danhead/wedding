@@ -1,8 +1,8 @@
 FROM node:8.4.0-alpine
 
 ENV NODE_ENV production
-ENV PORT 8080
-EXPOSE 8080
+ENV PORT 80
+EXPOSE 80
 
 COPY ./ /usr/src/app
 
