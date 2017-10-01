@@ -1,10 +1,10 @@
 import React, { Component } from 'react';
-import { BrowserRouter } from 'react-router-dom';
+import { BrowserRouter, Route } from 'react-router-dom';
 
 import BackgroundImage from './components/BackgroundImage';
 import Menu from './components/Menu';
 import Login from './components/Login';
-import Admin from './routes/Admin';
+import Albums from './components/Albums';
 
 import { auth, bucket, db } from './rebase';
 
@@ -23,8 +23,8 @@ class App extends Component {
     this.state = {
       bgImgUrl: null,
       user: {...emptyUser},
+      albums: {},
     }
-    this.authStateEvents = {};
   }
 
   componentWillMount() {
@@ -43,8 +43,15 @@ class App extends Component {
             state: 'user.data',
           });
         }
+        if(!this.albumDataBinding) {
+          this.albumDataBinding = db.bindToState('albums', {
+            context: this,
+            state: 'albums',
+          });
+        }
       } else if (this.userStateBinding) {
         db.removeBinding(this.userStateBinding);
+        db.removeBinding(this.albumDataBinding);
         this.setState({
           user: {...emptyUser},
         });
@@ -57,27 +64,39 @@ class App extends Component {
     });
   }
 
-  render() {
+  renderLogin = () => {
     return (
       <div>
-        <BrowserRouter>
-          <div>
-            {this.state.user.uid && this.state.user.data.approved
-              ? ''
-              : <Login user={this.state.user} />
-            }
-            {this.state.user.data.isAdmin
-              ? <Admin user={this.state.user} />
-              : ''
-            }
-          </div>
-        </BrowserRouter>
-        { this.state.user.uid
-          ? <Menu user={this.state.user} />
-          : <BackgroundImage url={this.state.bgImgUrl} /> }
+        <Login user={this.state.user} />
+        <BackgroundImage url={this.state.bgImgUrl} />
       </div>
-    );
+    )
+  }
+
+  render
+
+  render() {
+    if (this.state.user.uid) {
+      return (
+        <div>
+          <BrowserRouter>
+            <Route path="/" exact render={() => {
+              return <Albums albums={this.state.albums} />
+            }} />
+          </BrowserRouter>
+          <Menu user={this.state.user} />
+        </div>
+      )
+    } else {
+      return (
+        <div>
+          <Login user={this.state.user} />
+          <BackgroundImage url={this.state.bgImgUrl} />
+        </div>
+      )
+    }
   }
 }
 
 export default App;
+

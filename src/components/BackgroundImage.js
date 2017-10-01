@@ -16,7 +16,7 @@ const BackgroundImg = styled.div`
   right: 0;
   bottom: 0;
   left: 0;
-  background: ${props => props.url ? `url(${props.url}) no-repeat center center` : ''};
+  background: ${props => props.url ? `url(${props.url}) no-repeat center top` : ''};
   background-size: cover;
   filter: blur(5px);
 `;
