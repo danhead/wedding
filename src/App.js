@@ -52,7 +52,7 @@ class App extends Component {
     });
 
     // Get BG Image URL
-    bucket.ref('/public/images/IMG_1212.JPG').getDownloadURL().then(bgImgUrl => {
+    bucket.ref('/public/images/background_loggedout.jpg').getDownloadURL().then(bgImgUrl => {
       this.setState({ bgImgUrl });
     });
   }
