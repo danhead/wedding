@@ -15,7 +15,7 @@ class Login extends React.Component {
   componentWillUpdate(prev, next) {
     const authProvider = next.authProvider;
     if (!this.props.user.uid && next.passwordValid && authProvider) {
-      const password = this.state.password;
+      const password = next.password;
       if (authProvider === 'anonymous') {
         auth.signInAnonymously().then(res => {
           this.submitUid(res.uid, password);
@@ -48,6 +48,7 @@ class Login extends React.Component {
     this.form.reset();
     axios.post('/api/validate', { password }).then((res) => {
       if (res.data.valid) {
+        console.log(password);
         this.setState({
           password,
           passwordValid: true,
@@ -104,6 +105,7 @@ class Login extends React.Component {
         <form ref={(el) => this.form = el} onSubmit={(e) => this.submitPassword(e)}>
           <Input type="text" innerRef={(el) => this.password = el} placeholder="Password" />
           <Button type="submit">Go!</Button>
+          <Button onClick={() => this.setState({ authProvider: null })}>Back</Button>
         </form>
       </div>
     )

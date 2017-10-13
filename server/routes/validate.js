@@ -24,31 +24,38 @@ const route = function(db) {
         });
       }
       const valid = password === s.val();
-      const userRef = db.ref(`users/${uid}`)
-        .set({
-          isAdmin: false,
-          isAnonymous: true,
-          approved: valid,
-        });
-      if (valid) {
-        admin.auth().createCustomToken(uid, {
-          approved: true,
-        }).then(function(customToken) {
+      admin.auth().getUser(uid).then(function() {
+        const userRef = db.ref(`users/${uid}`)
+          .set({
+            isAdmin: false,
+            isAnonymous: true,
+            approved: valid,
+          });
+        if (valid) {
+          admin.auth().createCustomToken(uid, {
+            approved: true,
+          }).then(function(customToken) {
+            return res.json({
+              valid: true,
+              token: customToken,
+            });
+          }).catch(function(err) {
+            console.error('Error creating custom token', err);
+            return res.status(500).json({
+              error: 'Internal server error',
+            });
+          });
+        } else {
           return res.json({
-            valid: true,
-            token: customToken,
+            valid: false,
           });
-        }).catch(function(err) {
-          console.error('Error creating custom token', err);
-          return res.status(500).json({
-            error: 'Internal server error',
-          });
-        });
-      } else {
+        }
+      }).catch(function(err) {
         return res.json({
           valid: false,
+          error: err,
         });
-      }
+      });
     });
   });
 
